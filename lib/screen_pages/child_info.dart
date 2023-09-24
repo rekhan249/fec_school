@@ -36,7 +36,6 @@ class _ChildInformationState extends State<ChildInformation> {
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<Students>(context, listen: false);
     return SafeArea(
         child: Scaffold(
       backgroundColor: Colors.white,
