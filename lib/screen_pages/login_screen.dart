@@ -143,6 +143,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                         passwordProvider: passwordProvider,
                                         hintText: 'Enter password',
                                         labelText: 'Password',
+                                        icon: Icon(passwordProvider.isObscure
+                                            ? Icons.visibility_off
+                                            : Icons.visibility),
                                       ))),
                             ),
                             SizedBox(height: 10.h),

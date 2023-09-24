@@ -39,7 +39,7 @@ class _NoticesScreenState extends State<NoticesScreen> {
       },
     );
     var jsonRespose = jsonDecode(response.body);
-    print(jsonRespose.map((map) => map['id']));
+    print(jsonRespose);
     notices = Notice(
         nid: int.tryParse(jsonRespose['nid']),
         title: jsonRespose['title'],

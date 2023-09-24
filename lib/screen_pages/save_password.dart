@@ -76,6 +76,9 @@ class _SavePasswordState extends State<SavePassword> {
                                         passwordProvider: passwordProvider,
                                         hintText: 'Enter New password',
                                         labelText: 'New password',
+                                        icon: Icon(passwordProvider.isObscure
+                                            ? Icons.visibility_off
+                                            : Icons.visibility),
                                       ))),
                             ),
                             SizedBox(height: 10.h),
@@ -89,6 +92,9 @@ class _SavePasswordState extends State<SavePassword> {
                                         passwordProvider: passwordProvider,
                                         hintText: 'Enter confirm password',
                                         labelText: 'Confirm password',
+                                        icon: Icon(passwordProvider.isObscure
+                                            ? Icons.visibility_off
+                                            : Icons.visibility),
                                       ))),
                             ),
                             SizedBox(height: 60.h),

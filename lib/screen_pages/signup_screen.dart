@@ -163,6 +163,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                           passwordProvider: passwordProvider,
                                           hintText: 'Enter password',
                                           labelText: 'Password',
+                                          icon: Icon(passwordProvider.isObscure
+                                              ? Icons.visibility_off
+                                              : Icons.visibility),
                                         ))),
                               ),
 

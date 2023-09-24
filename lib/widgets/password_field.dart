@@ -9,12 +9,14 @@ class PasswordField extends StatelessWidget {
     required this.passwordProvider,
     required this.hintText,
     required this.labelText,
+    required this.icon,
   }) : _passwordController = passwordController;
 
   final TextEditingController _passwordController;
   final PasswordProvider passwordProvider;
   final String hintText;
   final String labelText;
+  final Icon icon;
 
   @override
   Widget build(BuildContext context) {
@@ -36,11 +38,7 @@ class PasswordField extends StatelessWidget {
         prefixIcon: const Icon(Icons.vpn_key, color: Colors.black),
         suffixIcon: IconButton(
           onPressed: () => passwordProvider.isToggleObscure(),
-          icon: Icon(
-            passwordProvider.isObscure
-                ? Icons.visibility_off
-                : Icons.visibility,
-          ),
+          icon: icon,
           color: passwordProvider.isObscure ? Colors.black : Colors.red,
         ),
       ),

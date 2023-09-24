@@ -155,6 +155,9 @@ class _ProfileInfoState extends State<ProfileInfo> {
                         passwordProvider: passwordProvider,
                         hintText: 'Enter password',
                         labelText: 'Password',
+                        icon: Icon(passwordProvider.isObscure
+                            ? Icons.visibility_off
+                            : Icons.visibility),
                       ))),
             ),
             SizedBox(height: 10.h),
@@ -174,6 +177,11 @@ class _ProfileInfoState extends State<ProfileInfo> {
                         passwordProvider: passwordProvider,
                         hintText: 'Enter confirm password',
                         labelText: 'Confirm password',
+                        icon: Icon(
+                          passwordProvider.isObscure
+                              ? Icons.visibility_off
+                              : Icons.visibility,
+                        ),
                       ))),
             ),
             SizedBox(height: 40.h),
