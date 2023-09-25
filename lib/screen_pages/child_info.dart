@@ -1,4 +1,3 @@
-import 'package:fec_app2/models/students_model.dart';
 import 'package:fec_app2/providers/child_info_provider.dart';
 import 'package:fec_app2/screen_pages/dashboard.dart';
 import 'package:fec_app2/widgets/class_grade.dart';

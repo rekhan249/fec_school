@@ -1,15 +1,3 @@
-class Events {
-  final List<Event> event;
-
-  Events({required this.event});
-
-  factory Events.fromMap(map) => Events(event: List<Event>.from(map['event']));
-
-  Map<String, dynamic> toMap() {
-    return {"event": event};
-  }
-}
-
 class Event {
   final int? eid;
   final String? title;
@@ -34,8 +22,8 @@ class Event {
       type: map['type'] ?? '',
       description: map['description'] ?? '',
       summary: map['summary'] ?? '',
-      createdAt: map['createdAt'] ?? '',
-      updatedAt: map['updatedAt'] ?? '');
+      createdAt: map['createdAt'] ?? DateTime.now(),
+      updatedAt: map['updatedAt'] ?? DateTime.now());
 
   Map<String, dynamic> toMap() {
     return {

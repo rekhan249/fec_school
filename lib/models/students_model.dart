@@ -1,22 +1,11 @@
-class Students {
-  final Student data;
-  Students({
-    required this.data,
-  });
-  factory Students.fromMap(map) => Students(data: map['data'] ?? '');
-  Map<String, dynamic> toMap() {
-    return {"data": data};
-  }
-}
-
 class Student {
-  final int? sid;
+  final String? sid;
   final String? username;
   final List<String>? childrenName;
   final String? email;
   final String? emailVerifiedAt;
-  final int? role;
-  final int? status;
+  final String? role;
+  final String? status;
   final DateTime? createdAt;
   final DateTime? updatedAt;
 
@@ -33,7 +22,7 @@ class Student {
   });
 
   factory Student.fromMap(map) => Student(
-      sid: map['sid'] ?? 0,
+      sid: map['sid'] ?? '',
       username: map['username'] ?? '',
       childrenName: List<String>.from(map['childrenName']),
       email: map['email'] ?? '',

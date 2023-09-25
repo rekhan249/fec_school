@@ -1,15 +1,3 @@
-class Folders {
-  final List<Folder> data;
-
-  Folders({
-    required this.data,
-  });
-  factory Folders.fromMap(map) => Folders(data: List<Folder>.from(map['data']));
-  Map<String, dynamic> toMap() {
-    return {"data": data};
-  }
-}
-
 class Folder {
   final int? id;
   final int? folderId;
@@ -32,8 +20,8 @@ class Folder {
       folderId: map['folderId'] ?? '',
       userId: map['userId'] ?? '',
       name: map['name'] ?? '',
-      createdAt: map['createdAt'] ?? '',
-      updatedAt: map['updatedAt'] ?? '');
+      createdAt: map['createdAt'] ?? DateTime.now(),
+      updatedAt: map['updatedAt'] ?? DateTime.now());
 
   Map<String, dynamic> toMap() {
     return {

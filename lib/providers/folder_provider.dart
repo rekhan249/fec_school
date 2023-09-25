@@ -2,17 +2,14 @@
 
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:fec_app2/models/folders_model.dart';
 import 'package:fec_app2/services.dart/urls_api.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class FolderProvider with ChangeNotifier {
-  Folder? _folders;
   bool isNotValidate = false;
 
-  Folder? get folders => _folders;
   void dataEvents(BuildContext context) async {
     var response = await http.get(
       Uri.parse(folder),
@@ -22,13 +19,6 @@ class FolderProvider with ChangeNotifier {
       },
     );
     var jsonRespose = jsonDecode(response.body);
-    _folders = Folder(
-        id: jsonRespose['id'],
-        folderId: jsonRespose['folderId'],
-        userId: jsonRespose['userId'],
-        name: jsonRespose['name'],
-        createdAt: jsonRespose['createdAt'],
-        updatedAt: jsonRespose['updatedAt']);
 
     Future<String> getToken() async {
       final SharedPreferences preferences =

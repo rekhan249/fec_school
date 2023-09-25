@@ -5,52 +5,33 @@ import 'package:fec_app2/services.dart/urls_api.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 
 class NoticesProvider with ChangeNotifier {
   Notice? _notices;
-  bool isNotValidate = false;
 
   Notice? get notices => _notices;
-  void dataNotices(BuildContext context) async {
-    var response = await http.get(
-      Uri.parse(notice),
-      headers: {
-        'Authorization': 'Bearer zZT5D4MvFApZYy8fJZFbBEutfecgqB24CfDq5pbu',
-        "Content-Type": "application/json"
-      },
-    );
-    var jsonRespose = jsonDecode(response.body);
-    _notices = Notice(
-        nid: jsonRespose['nid'],
-        title: jsonRespose['title'],
-        type: jsonRespose['type'],
-        description: jsonRespose['description'],
-        summary: jsonRespose['summary'],
-        createdAt: jsonRespose['createdAt'],
-        updatedAt: jsonRespose['updatedAt']);
-
-    Future<String> getToken() async {
-      final SharedPreferences preferences =
-          await SharedPreferences.getInstance();
-      return preferences.getString('token') ?? '';
-    }
-
-    if (jsonRespose['status']) {
-      var myToken = jsonRespose['token'];
-
-      Future<bool> setUserName(String username) async {
-        final SharedPreferences preferences =
-            await SharedPreferences.getInstance();
-        return preferences.setString('token', myToken);
-      }
-
-      Fluttertoast.showToast(
-          msg: '${jsonRespose['status']} Working Successfully');
-    } else {
-      Fluttertoast.showToast(msg: ' Error is something wrong');
-      isNotValidate = true;
-    }
+  Future<void> fetchNotice() async {
+    final response = await dataNotices();
+    _notices = response.toMap() as Notice?;
     notifyListeners();
   }
+}
+
+Future<Notice> dataNotices() async {
+  var response = await http.get(
+    Uri.parse(notice),
+    headers: {
+      'Authorization': 'Bearer zZT5D4MvFApZYy8fJZFbBEutfecgqB24CfDq5pbu',
+      "Content-Type": "application/json"
+    },
+  );
+  var jsonRespose = jsonDecode(response.body);
+
+  if (jsonRespose['status']) {
+    Fluttertoast.showToast(
+        msg: '${jsonRespose['status']} Working Successfully');
+  } else {
+    Fluttertoast.showToast(msg: ' Error is something wrong');
+  }
+  return Notice.fromMap(jsonRespose);
 }
