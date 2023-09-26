@@ -17,7 +17,7 @@ class NoticesScreen extends StatefulWidget {
 }
 
 class _NoticesScreenState extends State<NoticesScreen> {
-  ApiService _apiService = ApiService();
+  final ApiService _apiService = ApiService();
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +114,7 @@ class _NoticesScreenState extends State<NoticesScreen> {
                         padding: const EdgeInsets.all(12.0),
                         child: FutureBuilder<Notice?>(
                             future: _apiService.getUsers(),
-                            builder: (context, snapshot) {
+                            builder: (context, AsyncSnapshot snapshot) {
                               if (snapshot.connectionState ==
                                   ConnectionState.waiting) {
                                 return const Center(

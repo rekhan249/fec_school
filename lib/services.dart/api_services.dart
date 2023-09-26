@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'package:fec_app2/models/notices_model.dart';
 import 'package:fec_app2/services.dart/urls_api.dart';
@@ -5,6 +6,7 @@ import 'package:http/http.dart' as http;
 
 class ApiService {
   Future<Notice?> getUsers() async {
+    Notice? noticesList;
     try {
       var url = Uri.parse(notice);
       var response = await http.get(
@@ -15,12 +17,11 @@ class ApiService {
         },
       );
       if (response.statusCode == 200) {
-        Notice notices = Notice.fromMap(response.body);
-        return notices;
+        noticesList = Notice.fromMap(jsonDecode(response.body));
       }
     } catch (e) {
       log(e.toString());
     }
-    return null;
+    return noticesList;
   }
 }
