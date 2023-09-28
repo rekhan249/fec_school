@@ -140,7 +140,8 @@ class _NoticesScreenState extends State<NoticesScreen> {
                                   ],
                                 );
                               } else {
-                                return const Text("Something went wrong");
+                                return Center(
+                                    child: const Text("Something went wrong"));
                               }
                             })),
                   ),
