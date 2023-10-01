@@ -1,17 +1,11 @@
 // ignore_for_file: unused_element
-
-import 'dart:convert';
-
 import 'package:fec_app2/models/folders_model.dart';
+import 'package:fec_app2/providers/folder_provider.dart';
 import 'package:fec_app2/screen_pages/dashboard.dart';
 import 'package:fec_app2/screen_pages/form_title.dart';
-import 'package:fec_app2/services.dart/urls_api.dart';
 import 'package:fec_app2/widgets/curved_botton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
 
 class FormScreen extends StatefulWidget {
   static const String routeName = '/forms';
@@ -22,55 +16,7 @@ class FormScreen extends StatefulWidget {
 }
 
 class _FormScreenState extends State<FormScreen> {
-  bool isNotValidate = false;
-  Folder? folders;
-
-  @override
-  void initState() {
-    dataNotices();
-    super.initState();
-  }
-
-  void dataNotices() async {
-    var response = await http.get(
-      Uri.parse(folder),
-      headers: {
-        'Authorization': 'Bearer zZT5D4MvFApZYy8fJZFbBEutfecgqB24CfDq5pbu',
-        "Content-Type": "application/json"
-      },
-    );
-    var jsonRespose = jsonDecode(response.body);
-    folders = Folder(
-        id: jsonRespose['id'],
-        folderId: jsonRespose['folderId'],
-        userId: jsonRespose['userId'],
-        name: jsonRespose['name'],
-        createdAt: jsonRespose['createdAt'],
-        updatedAt: jsonRespose['updatedAt']);
-
-    Future<String> getToken() async {
-      final SharedPreferences preferences =
-          await SharedPreferences.getInstance();
-      return preferences.getString('token') ?? '';
-    }
-
-    if (jsonRespose['status']) {
-      var myToken = jsonRespose['token'];
-
-      Future<bool> setUserName() async {
-        final SharedPreferences preferences =
-            await SharedPreferences.getInstance();
-        return preferences.setString('token', myToken);
-      }
-
-      Fluttertoast.showToast(
-          msg: '${jsonRespose['status']}Working Successfully');
-    } else {
-      Fluttertoast.showToast(msg: ' Error is something wrong');
-      isNotValidate = true;
-    }
-  }
-
+  FolderProvider _folderProvider = FolderProvider();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -185,92 +131,85 @@ class _FormScreenState extends State<FormScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: 10.h),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w),
-                child: const Divider(color: Colors.black26),
-              ),
-              SizedBox(height: 10.h),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w),
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, FormTitle.routeName);
-                  },
-                  child: Container(
-                    height: 140.h,
-                    width: double.infinity.w,
-                    decoration: BoxDecoration(
-                        color: Colors.grey.shade200,
-                        shape: BoxShape.rectangle,
-                        borderRadius: BorderRadius.circular(10.r)),
-                    child: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Forms Title',
-                            style: TextStyle(fontSize: 15.sp),
+              SizedBox(height: 30.h),
+              FutureBuilder<List<Folder>>(
+                  future: _folderProvider.getUsers(),
+                  builder: (context, AsyncSnapshot<List<Folder>> snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (snapshot.connectionState ==
+                        ConnectionState.done) {
+                      final folderData = snapshot.data;
+
+                      return Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20.w),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(context, FormTitle.routeName);
+                          },
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: folderData!.length,
+                            itemBuilder: (context, index) {
+                              return Column(
+                                children: [
+                                  Container(
+                                    height: 140.h,
+                                    width: double.infinity.w,
+                                    decoration: BoxDecoration(
+                                        color: Colors.grey.shade200,
+                                        shape: BoxShape.rectangle,
+                                        borderRadius:
+                                            BorderRadius.circular(10.r)),
+                                    child: Padding(
+                                        padding: const EdgeInsets.all(12.0),
+                                        child: ListTile(
+                                          title: Text(
+                                            folderData[index]
+                                                .folderId
+                                                .toString(),
+                                            style: TextStyle(fontSize: 15.sp),
+                                          ),
+                                          subtitle: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              SizedBox(height: 05.h),
+                                              Text(
+                                                  folderData[index]
+                                                      .name
+                                                      .toString(),
+                                                  style: TextStyle(
+                                                      fontSize: 12.sp)),
+                                              SizedBox(height: 15.h),
+                                              Text(
+                                                folderData[index]
+                                                    .createdAt
+                                                    .toString(),
+                                                style:
+                                                    TextStyle(fontSize: 10.sp),
+                                              ),
+                                            ],
+                                          ),
+                                        )),
+                                  ),
+                                  SizedBox(height: 10.h),
+                                  Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 10.w),
+                                      child:
+                                          const Divider(color: Colors.black26)),
+                                  SizedBox(height: 10.h),
+                                ],
+                              );
+                            },
                           ),
-                          SizedBox(height: 05.h),
-                          Text(
-                              'Video provides a powerful way to help you prove your point. When you click Online Video, you can paste in the embed code for the video you want to add.',
-                              style: TextStyle(fontSize: 12.sp)),
-                          SizedBox(height: 15.h),
-                          Text(
-                            'Date: DD-MMM-YY',
-                            style: TextStyle(fontSize: 10.sp),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 10.h),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w),
-                child: const Divider(color: Colors.black26),
-              ),
-              SizedBox(height: 10.h),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w),
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, FormTitle.routeName);
-                  },
-                  child: Container(
-                    height: 140.h,
-                    width: double.infinity.w,
-                    decoration: BoxDecoration(
-                        color: Colors.grey.shade200,
-                        shape: BoxShape.rectangle,
-                        borderRadius: BorderRadius.circular(10.r)),
-                    child: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Forms Title',
-                            style: TextStyle(fontSize: 15.sp),
-                          ),
-                          SizedBox(height: 05.h),
-                          Text(
-                              'Video provides a powerful way to help you prove your point. When you click Online Video, you can paste in the embed code for the video you want to add.',
-                              style: TextStyle(fontSize: 12.sp)),
-                          SizedBox(height: 15.h),
-                          Text(
-                            'Date: DD-MMM-YY',
-                            style: TextStyle(fontSize: 10.sp),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              )
+                        ),
+                      );
+                    } else {
+                      return const Center(child: Text('Something went wrong'));
+                    }
+                  }),
             ],
           ),
         ),

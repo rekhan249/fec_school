@@ -1,3 +1,19 @@
+class Folders {
+  final List<Folder> data;
+
+  Folders({
+    required this.data,
+  });
+
+  factory Folders.fromMap(map) => Folders(
+        data: List<Folder>.from(map["data"].map((x) => Folder.fromMap(x))),
+      );
+
+  Map<String, dynamic> toMap() => {
+        "data": List<dynamic>.from(data.map((x) => x.toMap())),
+      };
+}
+
 class Folder {
   final int? id;
   final int? folderId;
@@ -16,21 +32,23 @@ class Folder {
   });
 
   factory Folder.fromMap(map) => Folder(
-      id: map['id'] ?? 0,
-      folderId: map['folderId'] ?? '',
-      userId: map['userId'] ?? '',
-      name: map['name'] ?? '',
-      createdAt: map['createdAt'] ?? DateTime.now(),
-      updatedAt: map['updatedAt'] ?? DateTime.now());
+      id: map["id"],
+      folderId: map["folder_id"],
+      userId: map["user_id"],
+      name: map["name"],
+      createdAt: map['createdAt'] != null
+          ? DateTime.parse(map['createdAt'])
+          : DateTime.now(),
+      updatedAt: map['updatedAt'] != null
+          ? DateTime.parse(map['updatedAt'])
+          : DateTime.now());
 
-  Map<String, dynamic> toMap() {
-    return {
-      "id": id,
-      "folderId": folderId,
-      "userId": userId,
-      "name": name,
-      "createdAt": createdAt,
-      "updatedAt": updatedAt
-    };
-  }
+  Map<String, dynamic> toMap() => {
+        "id": id,
+        "folder_id": folderId,
+        "user_id": userId,
+        "name": name,
+        "created_at": createdAt,
+        "updated_at": updatedAt,
+      };
 }

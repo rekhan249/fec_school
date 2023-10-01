@@ -1,17 +1,29 @@
-class Student {
-  final String? sid;
-  final String? username;
-  final List<String>? childrenName;
-  final String? email;
-  final String? emailVerifiedAt;
-  final String? role;
-  final String? status;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
+class AddStrudents {
+  final AddStudent data;
 
-  Student({
-    required this.sid,
-    required this.username,
+  AddStrudents({required this.data});
+
+  factory AddStrudents.fromMap(map) => AddStrudents(
+        data: AddStudent.fromMap(map["data"]),
+      );
+
+  Map<String, dynamic> toMap() => {"data": data.toMap()};
+}
+
+class AddStudent {
+  final int id;
+  final String name;
+  final String childrenName;
+  final String email;
+  final dynamic emailVerifiedAt;
+  final int role;
+  final int status;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+
+  AddStudent({
+    required this.id,
+    required this.name,
     required this.childrenName,
     required this.email,
     required this.emailVerifiedAt,
@@ -21,28 +33,27 @@ class Student {
     required this.updatedAt,
   });
 
-  factory Student.fromMap(map) => Student(
-      sid: map['sid'] ?? '',
-      username: map['username'] ?? '',
-      childrenName: List<String>.from(map['childrenName']),
-      email: map['email'] ?? '',
-      emailVerifiedAt: map['emailVerifiedAt'] ?? '',
-      role: map['role'] ?? '',
-      status: map['status'] ?? '',
-      createdAt: map['createdAt'] ?? '',
-      updatedAt: map['updatedAt'] ?? '');
+  factory AddStudent.fromMap(map) => AddStudent(
+        id: map["id"] ?? 0,
+        name: map["name"],
+        childrenName: map["children_name"],
+        email: map["email"],
+        emailVerifiedAt: map["email_verified_at"],
+        role: map["role"],
+        status: map["status"],
+        createdAt: DateTime.parse(map["created_at"]),
+        updatedAt: DateTime.parse(map["updated_at"]),
+      );
 
-  Map<String, dynamic> toMap() {
-    return {
-      "sid": sid,
-      "username": username,
-      "childrenName": childrenName,
-      "email": email,
-      "emailVerifiedAt": emailVerifiedAt,
-      "role": role,
-      "status": status,
-      "createdAt": createdAt,
-      "updatedAt": updatedAt
-    };
-  }
+  Map<String, dynamic> toMap() => {
+        "id": id,
+        "name": name,
+        "children_name": childrenName,
+        "email": email,
+        "email_verified_at": emailVerifiedAt,
+        "role": role,
+        "status": status,
+        "created_at": createdAt,
+        "updated_at": updatedAt,
+      };
 }

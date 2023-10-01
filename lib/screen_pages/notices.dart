@@ -2,11 +2,9 @@ import 'package:fec_app2/models/notices_model.dart';
 import 'package:fec_app2/providers/notices_provider.dart';
 import 'package:fec_app2/screen_pages/dashboard.dart';
 import 'package:fec_app2/screen_pages/notice_title.dart';
-import 'package:fec_app2/services.dart/api_services.dart';
 import 'package:fec_app2/widgets/curved_botton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
 
 class NoticesScreen extends StatefulWidget {
   static const String routeName = '/notices';
@@ -21,7 +19,6 @@ class _NoticesScreenState extends State<NoticesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<NoticesProvider>(context, listen: false);
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
@@ -97,142 +94,82 @@ class _NoticesScreenState extends State<NoticesScreen> {
                 ],
               ),
               SizedBox(height: 30.h),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w),
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, NoticeTitle.routeName);
-                  },
-                  child: Container(
-                    height: 140.h,
-                    width: double.infinity.w,
-                    decoration: BoxDecoration(
-                        color: Colors.grey.shade200,
-                        shape: BoxShape.rectangle,
-                        borderRadius: BorderRadius.circular(10.r)),
-                    child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: FutureBuilder<Notice?>(
-                            future: _apiService.getUsers(),
-                            builder: (context, AsyncSnapshot snapshot) {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.waiting) {
-                                return const Center(
-                                    child: CircularProgressIndicator());
-                              } else if (snapshot.hasData) {
-                                final noticeData = snapshot.data;
-                                return Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      noticeData!.title.toString(),
-                                      style: TextStyle(fontSize: 15.sp),
-                                    ),
-                                    SizedBox(height: 05.h),
-                                    Text(
-                                        'Video provides a powerful way to help you prove your point. When you click Online Video, you can paste in the embed code for the video you want to add.',
-                                        style: TextStyle(fontSize: 12.sp)),
-                                    SizedBox(height: 15.h),
-                                    Text(
-                                      'Date: DD-MMM-YY',
-                                      style: TextStyle(fontSize: 10.sp),
-                                    ),
-                                  ],
-                                );
-                              } else {
-                                return Center(
-                                    child: const Text("Something went wrong"));
-                              }
-                            })),
-                  ),
-                ),
-              ),
-              SizedBox(height: 10.h),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w),
-                child: const Divider(color: Colors.black26),
-              ),
-              SizedBox(height: 10.h),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w),
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, NoticeTitle.routeName);
-                  },
-                  child: Container(
-                    height: 140.h,
-                    width: double.infinity.w,
-                    decoration: BoxDecoration(
-                        color: Colors.grey.shade200,
-                        shape: BoxShape.rectangle,
-                        borderRadius: BorderRadius.circular(10.r)),
-                    child: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Notices Title',
-                            style: TextStyle(fontSize: 15.sp),
+              FutureBuilder<List<Notice>>(
+                  future: _apiService.getUsers(),
+                  builder: (context, AsyncSnapshot<List<Notice>> snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (snapshot.connectionState ==
+                        ConnectionState.done) {
+                      final noticeData = snapshot.data;
+
+                      return Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20.w),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(context, NoticeTitle.routeName);
+                          },
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: noticeData!.length,
+                            itemBuilder: (context, index) {
+                              return Column(
+                                children: [
+                                  Container(
+                                    height: 140.h,
+                                    width: double.infinity.w,
+                                    decoration: BoxDecoration(
+                                        color: Colors.grey.shade200,
+                                        shape: BoxShape.rectangle,
+                                        borderRadius:
+                                            BorderRadius.circular(10.r)),
+                                    child: Padding(
+                                        padding: const EdgeInsets.all(12.0),
+                                        child: ListTile(
+                                          title: Text(
+                                            noticeData[index].title.toString(),
+                                            style: TextStyle(fontSize: 15.sp),
+                                          ),
+                                          subtitle: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              SizedBox(height: 05.h),
+                                              Text(
+                                                  noticeData[index]
+                                                      .description
+                                                      .toString(),
+                                                  style: TextStyle(
+                                                      fontSize: 12.sp)),
+                                              SizedBox(height: 15.h),
+                                              Text(
+                                                noticeData[index]
+                                                    .createdAt
+                                                    .toString(),
+                                                style:
+                                                    TextStyle(fontSize: 10.sp),
+                                              ),
+                                            ],
+                                          ),
+                                        )),
+                                  ),
+                                  SizedBox(height: 10.h),
+                                  Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 10.w),
+                                      child:
+                                          const Divider(color: Colors.black26)),
+                                  SizedBox(height: 10.h),
+                                ],
+                              );
+                            },
                           ),
-                          SizedBox(height: 05.h),
-                          Text(
-                              'Video provides a powerful way to help you prove your point. When you click Online Video, you can paste in the embed code for the video you want to add.',
-                              style: TextStyle(fontSize: 12.sp)),
-                          SizedBox(height: 15.h),
-                          Text(
-                            'Date: DD-MMM-YY',
-                            style: TextStyle(fontSize: 10.sp),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 10.h),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w),
-                child: const Divider(color: Colors.black26),
-              ),
-              SizedBox(height: 10.h),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w),
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, NoticeTitle.routeName);
-                  },
-                  child: Container(
-                    height: 140.h,
-                    width: double.infinity.w,
-                    decoration: BoxDecoration(
-                        color: Colors.grey.shade200,
-                        shape: BoxShape.rectangle,
-                        borderRadius: BorderRadius.circular(10.r)),
-                    child: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Notices Title',
-                            style: TextStyle(fontSize: 15.sp),
-                          ),
-                          SizedBox(height: 05.h),
-                          Text(
-                              'Video provides a powerful way to help you prove your point. When you click Online Video, you can paste in the embed code for the video you want to add.',
-                              style: TextStyle(fontSize: 12.sp)),
-                          SizedBox(height: 15.h),
-                          Text(
-                            'Date: DD-MMM-YY',
-                            style: TextStyle(fontSize: 10.sp),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              )
+                        ),
+                      );
+                    } else {
+                      return const Center(child: Text('Something went wrong'));
+                    }
+                  }),
             ],
           ),
         ),

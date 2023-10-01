@@ -1,13 +1,10 @@
 import 'package:fec_app2/providers/child_info_provider.dart';
-import 'package:fec_app2/providers/events_provider.dart';
-import 'package:fec_app2/providers/folder_provider.dart';
 import 'package:fec_app2/providers/login_provider.dart';
-import 'package:fec_app2/providers/notices_provider.dart';
 import 'package:fec_app2/providers/password_provider.dart';
 import 'package:fec_app2/providers/signup_provider.dart';
 import 'package:fec_app2/providers/switching_provvider.dart';
 import 'package:fec_app2/routes_manage/page_route.dart';
-import 'package:fec_app2/screen_pages/dashboard.dart';
+import 'package:fec_app2/screen_pages/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -32,10 +29,6 @@ class MyApp extends StatelessWidget {
             ChangeNotifierProvider(create: (context) => PasswordProvider()),
             ChangeNotifierProvider(create: (context) => SignUpProvider()),
             ChangeNotifierProvider(create: (context) => SwitchingProvider()),
-            ChangeNotifierProvider(create: (context) => NoticesProvider()),
-            ChangeNotifierProvider(create: (context) => EventsProvider()),
-            ChangeNotifierProvider(create: (context) => NoticesProvider()),
-            ChangeNotifierProvider(create: (context) => FolderProvider()),
             ChangeNotifierProvider(create: (context) => ChildInfoProvider()),
           ],
           child: MaterialApp(
@@ -46,9 +39,7 @@ class MyApp extends StatelessWidget {
               useMaterial3: true,
             ),
             onGenerateRoute: (settings) => generateRoutes(settings),
-            home: const DashBoard(
-              token: null,
-            ),
+            home: const LoginScreen(),
           )),
     );
   }

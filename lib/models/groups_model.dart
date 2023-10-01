@@ -5,10 +5,13 @@ class Groups {
     required this.data,
   });
 
-  factory Groups.fromMap(map) => Groups(data: List<Group>.from(map['data']));
-  Map<String, dynamic> toMap() {
-    return {"data": data};
-  }
+  factory Groups.fromMap(Map<String, dynamic> json) => Groups(
+        data: List<Group>.from(json["data"].map((x) => x)),
+      );
+
+  Map<String, dynamic> toMap() => {
+        "data": List<Group>.from(data.map((x) => x)),
+      };
 }
 
 class Group {}
