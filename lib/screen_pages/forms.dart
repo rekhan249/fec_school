@@ -16,7 +16,7 @@ class FormScreen extends StatefulWidget {
 }
 
 class _FormScreenState extends State<FormScreen> {
-  FolderProvider _folderProvider = FolderProvider();
+  final FolderProvider _folderProvider = FolderProvider();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -166,7 +166,10 @@ class _FormScreenState extends State<FormScreen> {
                                         child: ListTile(
                                           title: Text(
                                             folderData[index]
-                                                .folderId
+                                                .toMap()
+                                                .entries
+                                                .first
+                                                .value
                                                 .toString(),
                                             style: TextStyle(fontSize: 15.sp),
                                           ),
@@ -177,7 +180,9 @@ class _FormScreenState extends State<FormScreen> {
                                               SizedBox(height: 05.h),
                                               Text(
                                                   folderData[index]
-                                                      .name
+                                                      .toMap()
+                                                      .entries
+                                                      .map((e) => e.value)
                                                       .toString(),
                                                   style: TextStyle(
                                                       fontSize: 12.sp)),

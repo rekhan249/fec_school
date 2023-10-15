@@ -9,14 +9,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class EventScreen extends StatefulWidget {
   static const String routeName = '/events';
-  const EventScreen({super.key});
+  final String? payload;
+  const EventScreen({required this.payload, super.key});
 
   @override
   State<EventScreen> createState() => _EventScreenState();
 }
 
 class _EventScreenState extends State<EventScreen> {
-  EventsProvider _eventsProvider = EventsProvider();
+  final EventsProvider _eventsProvider = EventsProvider();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -101,7 +102,7 @@ class _EventScreenState extends State<EventScreen> {
                       return const Center(child: CircularProgressIndicator());
                     } else if (snapshot.connectionState ==
                         ConnectionState.done) {
-                      final noticeData = snapshot.data;
+                      final eventData = snapshot.data;
 
                       return Padding(
                         padding: EdgeInsets.symmetric(horizontal: 20.w),
@@ -111,7 +112,7 @@ class _EventScreenState extends State<EventScreen> {
                           },
                           child: ListView.builder(
                             shrinkWrap: true,
-                            itemCount: noticeData!.length,
+                            itemCount: eventData!.length,
                             itemBuilder: (context, index) {
                               return Column(
                                 children: [
@@ -127,7 +128,12 @@ class _EventScreenState extends State<EventScreen> {
                                         padding: const EdgeInsets.all(12.0),
                                         child: ListTile(
                                           title: Text(
-                                            noticeData[index].title.toString(),
+                                            eventData[index]
+                                                .toMap()
+                                                .entries
+                                                .first
+                                                .value
+                                                .toString(),
                                             style: TextStyle(fontSize: 15.sp),
                                           ),
                                           subtitle: Column(
@@ -136,14 +142,16 @@ class _EventScreenState extends State<EventScreen> {
                                             children: [
                                               SizedBox(height: 05.h),
                                               Text(
-                                                  noticeData[index]
-                                                      .description
+                                                  eventData[index]
+                                                      .toMap()
+                                                      .entries
+                                                      .map((e) => e.value)
                                                       .toString(),
                                                   style: TextStyle(
                                                       fontSize: 12.sp)),
                                               SizedBox(height: 15.h),
                                               Text(
-                                                noticeData[index]
+                                                eventData[index]
                                                     .createdAt
                                                     .toString(),
                                                 style:

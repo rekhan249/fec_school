@@ -45,15 +45,17 @@ class AddStudent {
         updatedAt: DateTime.parse(map["updated_at"]),
       );
 
-  Map<String, dynamic> toMap() => {
-        "id": id,
-        "name": name,
-        "children_name": childrenName,
-        "email": email,
-        "email_verified_at": emailVerifiedAt,
-        "role": role,
-        "status": status,
-        "created_at": createdAt,
-        "updated_at": updatedAt,
-      };
+  Map<String, dynamic> toMap() {
+    return {
+      "id": id,
+      "name": name,
+      "children_name": childrenName,
+      "email": email,
+      "email_verified_at": emailVerifiedAt,
+      "role": role,
+      "status": status,
+      "created_at": createdAt.toIso8601String(),
+      "updated_at": updatedAt.toIso8601String(),
+    };
+  }
 }

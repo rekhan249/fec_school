@@ -33,7 +33,10 @@ Route<dynamic> generateRoutes(RouteSettings settings) {
     case NoticeTitle.routeName:
       return MaterialPageRoute(builder: (context) => const NoticeTitle());
     case EventScreen.routeName:
-      return MaterialPageRoute(builder: (context) => const EventScreen());
+      return MaterialPageRoute(
+          builder: (context) => const EventScreen(
+                payload: '',
+              ));
     case EventTitle.routeName:
       return MaterialPageRoute(builder: (context) => const EventTitle());
     case FormScreen.routeName:

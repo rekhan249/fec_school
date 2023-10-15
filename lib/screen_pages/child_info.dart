@@ -1,5 +1,7 @@
 import 'package:fec_app2/providers/child_info_provider.dart';
+import 'package:fec_app2/providers/dynamic_formfield_prov.dart';
 import 'package:fec_app2/screen_pages/dashboard.dart';
+import 'package:fec_app2/services.dart/notification.dart';
 import 'package:fec_app2/widgets/class_grade.dart';
 import 'package:fec_app2/widgets/curved_botton.dart';
 import 'package:fec_app2/widgets/name_field.dart';
@@ -17,9 +19,18 @@ class ChildInformation extends StatefulWidget {
 
 class _ChildInformationState extends State<ChildInformation> {
   final _formKey = GlobalKey<FormState>();
-  final _nameController = TextEditingController();
   final _parentNameController = TextEditingController();
   final _classController = TextEditingController();
+
+  NotificationServices? notifyServices;
+  @override
+  void initState() {
+    notifyServices = NotificationServices();
+    notifyServices!.initializationNotifications();
+    notifyServices!.displayNotification(
+        title: 'Welcome to Flutter', body: "This is Child Screen");
+    super.initState();
+  }
 
   void _submitStudentForm(BuildContext context) {
     bool isValid = _formKey.currentState!.validate();
@@ -29,12 +40,27 @@ class _ChildInformationState extends State<ChildInformation> {
     }
     _formKey.currentState!.save();
     Provider.of<ChildInfoProvider>(context, listen: false)
-        .onSubmittedStudentsForm(context, _nameController.text.trim(),
-            _parentNameController.text.trim(), _classController.text.trim());
+        .onSubmittedStudentsForm(
+            context,
+            Provider.of<TextFormFieldsProvider>(context, listen: false)
+                .textFields,
+            _parentNameController.text,
+            _classController.text);
+  }
+
+  @override
+  void dispose() {
+    _parentNameController.clear();
+    _classController.clear();
+    Provider.of<TextFormFieldsProvider>(context, listen: false)
+        .textFields
+        .clear();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<TextFormFieldsProvider>(context, listen: false);
     return SafeArea(
         child: Scaffold(
       backgroundColor: Colors.white,
@@ -95,6 +121,10 @@ class _ChildInformationState extends State<ChildInformation> {
                                   left: 0.w,
                                   child: IconButton(
                                       onPressed: () {
+                                        notifyServices?.displayNotification(
+                                            title: "We add new child",
+                                            body: "Notify me");
+                                        notifyServices!.scheduledNotification();
                                         Navigator.popAndPushNamed(
                                             context, DashBoard.routeName);
                                       },
@@ -130,10 +160,86 @@ class _ChildInformationState extends State<ChildInformation> {
               SizedBox(height: 05.h),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 25.h),
-                child: NameField(
-                  nameController: _nameController,
-                  hintText: 'Enter your full name',
-                  labelText: 'Name',
+                child: Column(
+                  children: [
+                    Consumer<TextFormFieldsProvider>(
+                      builder: (context, provider, child) {
+                        return ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: provider.textFields.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: EdgeInsets.only(top: 8.h),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: TextFormField(
+                                      initialValue:
+                                          provider.textFields[index].text,
+                                      keyboardType: TextInputType.name,
+                                      textInputAction: TextInputAction.next,
+                                      decoration: InputDecoration(
+                                        hintText: "Enter Name here",
+                                        label: Text("Child Name",
+                                            style: TextStyle(
+                                                fontSize: 16.sp,
+                                                color: Colors.black)),
+                                        prefixIcon: const Icon(Icons.person,
+                                            color: Colors.black),
+                                        enabledBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10.r),
+                                            borderSide: const BorderSide(
+                                                width: 3, color: Colors.grey)),
+                                        focusedBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10.r),
+                                            borderSide: const BorderSide(
+                                                width: 3, color: Colors.grey)),
+                                      ),
+                                      onChanged: (newText) {
+                                        provider.textFields[index].text =
+                                            newText;
+                                      },
+                                      validator: ((value) {
+                                        if (value == null || value.isEmpty) {
+                                          return 'Please enter full name';
+                                        } else if (!RegExp(
+                                                r"^[a-zA-Z]+(?:\s[a-zA-Z]+)+$")
+                                            .hasMatch(value)) {
+                                          return 'Please enter valid name';
+                                        }
+                                        return null;
+                                      }),
+                                    ),
+                                  ),
+                                  Row(
+                                    children: [
+                                      IconButton(
+                                        icon: const Icon(Icons.add_box,
+                                            color: Color.fromARGB(
+                                                255, 25, 74, 159)),
+                                        onPressed: () {
+                                          provider.addTextField('');
+                                        },
+                                      ),
+                                      IconButton(
+                                        icon: const Icon(Icons.delete,
+                                            color: Colors.red),
+                                        onPressed: () {
+                                          provider.removeTextField(index);
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  ],
                 ),
               ),
               SizedBox(height: 10.h),

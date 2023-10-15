@@ -3,6 +3,7 @@ import 'package:fec_app2/screen_pages/events.dart';
 import 'package:fec_app2/screen_pages/forms.dart';
 import 'package:fec_app2/screen_pages/notices.dart';
 import 'package:fec_app2/screen_pages/profile.dart';
+import 'package:fec_app2/services.dart/notification.dart';
 import 'package:fec_app2/widgets/curved_botton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,9 +20,13 @@ class DashBoard extends StatefulWidget {
 
 class _DashBoardState extends State<DashBoard> {
   bool isFinished = false;
-
+  NotificationServices? notifyServices;
   @override
   void initState() {
+    notifyServices = NotificationServices();
+    notifyServices!.initializationNotifications();
+    notifyServices!.displayNotification(
+        title: 'Welcome to Flutter', body: "This is Dashboard");
     super.initState();
   }
 
@@ -218,6 +223,10 @@ class _DashBoardState extends State<DashBoard> {
               padding: EdgeInsets.symmetric(horizontal: 30.h),
               child: GestureDetector(
                 onTap: () {
+                  notifyServices?.displayNotification(
+                      title: "Hey This is Notices Screen",
+                      body: "Notification is Activated");
+                  notifyServices!.scheduledNotification();
                   Navigator.pushNamed(context, NoticesScreen.routeName);
                 },
                 child: Container(
@@ -249,6 +258,10 @@ class _DashBoardState extends State<DashBoard> {
               padding: EdgeInsets.symmetric(horizontal: 30.h),
               child: GestureDetector(
                 onTap: () {
+                  notifyServices?.displayNotification(
+                      title: "Hey This is Events Screen",
+                      body: "Notification is Activated");
+                  notifyServices!.scheduledNotification();
                   Navigator.pushNamed(context, EventScreen.routeName);
                 },
                 child: Container(
@@ -279,6 +292,10 @@ class _DashBoardState extends State<DashBoard> {
               padding: EdgeInsets.symmetric(horizontal: 30.h),
               child: GestureDetector(
                 onTap: () {
+                  notifyServices?.displayNotification(
+                      title: "Hey This is Forms Screen",
+                      body: "Notification is Activated");
+                  notifyServices!.scheduledNotification();
                   Navigator.pushNamed(context, FormScreen.routeName);
                 },
                 child: Container(
