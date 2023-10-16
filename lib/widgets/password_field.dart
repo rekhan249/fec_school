@@ -23,7 +23,7 @@ class PasswordField extends StatelessWidget {
     return TextFormField(
       obscureText: passwordProvider.isObscure,
       controller: _passwordController,
-      keyboardType: TextInputType.number,
+      keyboardType: TextInputType.text,
       textInputAction: TextInputAction.done,
       decoration: InputDecoration(
         hintText: hintText,

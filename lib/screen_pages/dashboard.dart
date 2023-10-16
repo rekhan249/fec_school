@@ -11,8 +11,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class DashBoard extends StatefulWidget {
   static const String routeName = '/dashboard';
   // ignore: prefer_typing_uninitialized_variables
-  final token;
-  const DashBoard({super.key, required this.token});
+
+  const DashBoard({super.key});
 
   @override
   State<DashBoard> createState() => _DashBoardState();
@@ -20,15 +20,6 @@ class DashBoard extends StatefulWidget {
 
 class _DashBoardState extends State<DashBoard> {
   bool isFinished = false;
-  NotificationServices? notifyServices;
-  @override
-  void initState() {
-    notifyServices = NotificationServices();
-    notifyServices!.initializationNotifications();
-    notifyServices!.displayNotification(
-        title: 'Welcome to Flutter', body: "This is Dashboard");
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -223,10 +214,6 @@ class _DashBoardState extends State<DashBoard> {
               padding: EdgeInsets.symmetric(horizontal: 30.h),
               child: GestureDetector(
                 onTap: () {
-                  notifyServices?.displayNotification(
-                      title: "Hey This is Notices Screen",
-                      body: "Notification is Activated");
-                  notifyServices!.scheduledNotification();
                   Navigator.pushNamed(context, NoticesScreen.routeName);
                 },
                 child: Container(
@@ -258,10 +245,6 @@ class _DashBoardState extends State<DashBoard> {
               padding: EdgeInsets.symmetric(horizontal: 30.h),
               child: GestureDetector(
                 onTap: () {
-                  notifyServices?.displayNotification(
-                      title: "Hey This is Events Screen",
-                      body: "Notification is Activated");
-                  notifyServices!.scheduledNotification();
                   Navigator.pushNamed(context, EventScreen.routeName);
                 },
                 child: Container(
@@ -292,10 +275,6 @@ class _DashBoardState extends State<DashBoard> {
               padding: EdgeInsets.symmetric(horizontal: 30.h),
               child: GestureDetector(
                 onTap: () {
-                  notifyServices?.displayNotification(
-                      title: "Hey This is Forms Screen",
-                      body: "Notification is Activated");
-                  notifyServices!.scheduledNotification();
                   Navigator.pushNamed(context, FormScreen.routeName);
                 },
                 child: Container(

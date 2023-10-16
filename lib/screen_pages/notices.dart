@@ -105,17 +105,22 @@ class _NoticesScreenState extends State<NoticesScreen> {
 
                       return Padding(
                         padding: EdgeInsets.symmetric(horizontal: 20.w),
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(context, NoticeTitle.routeName);
-                          },
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: noticeData!.length,
-                            itemBuilder: (context, index) {
-                              return Column(
-                                children: [
-                                  Container(
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: noticeData!.length,
+                          itemBuilder: (context, index) {
+                            return Column(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => NoticeTitle(
+                                                noticeValue:
+                                                    noticeData[index])));
+                                  },
+                                  child: Container(
                                     height: 140.h,
                                     width: double.infinity.w,
                                     decoration: BoxDecoration(
@@ -153,17 +158,17 @@ class _NoticesScreenState extends State<NoticesScreen> {
                                           ),
                                         )),
                                   ),
-                                  SizedBox(height: 10.h),
-                                  Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 10.w),
-                                      child:
-                                          const Divider(color: Colors.black26)),
-                                  SizedBox(height: 10.h),
-                                ],
-                              );
-                            },
-                          ),
+                                ),
+                                SizedBox(height: 10.h),
+                                Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 10.w),
+                                    child:
+                                        const Divider(color: Colors.black26)),
+                                SizedBox(height: 10.h),
+                              ],
+                            );
+                          },
                         ),
                       );
                     } else {

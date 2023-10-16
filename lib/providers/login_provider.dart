@@ -18,36 +18,34 @@ class LoginProvider with ChangeNotifier {
 
     UserModelSignIn userModelSignIn =
         UserModelSignIn(email: email, password: password);
+    try {
+      var response = await http.post(Uri.parse(login),
+          headers: {
+            "Accept": 'application/json;charset=UTF-8',
+            'Charset': 'utf-8',
+            'Content-Type': 'application/json'
+          },
+          body: jsonEncode(userModelSignIn.toMap()));
+      var jsonRespose = jsonDecode(response.body);
 
-    var response = await http.post(Uri.parse(login),
-        headers: {"Content-Type": "application/json"},
-        body: jsonEncode(userModelSignIn.toMap()));
-    var jsonRespose = jsonDecode(response.body);
+      if (jsonRespose['status']) {
+        var myToken = jsonRespose['token'];
 
-    Future<String> getToken() async {
-      final SharedPreferences preferences =
-          await SharedPreferences.getInstance();
-      return preferences.getString('token') ?? '';
-    }
-
-    if (jsonRespose['status']) {
-      var myToken = jsonRespose['token'];
-
-      Future<bool> setUserName(String username) async {
         final SharedPreferences preferences =
             await SharedPreferences.getInstance();
-        return preferences.setString('token', myToken);
-      }
+        preferences.setString('token', myToken);
 
-      // ignore: use_build_context_synchronously
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => DashBoard(token: myToken)));
-      Fluttertoast.showToast(
-          msg: '${jsonRespose['status']} Login Successfully');
-    } else {
-      Fluttertoast.showToast(msg: ' Error is something wrong');
+        // ignore: use_build_context_synchronously
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const DashBoard()));
+        Fluttertoast.showToast(
+            msg: '${jsonRespose['status']} Login Successfully');
+      }
+    } catch (e) {
+      Fluttertoast.showToast(msg: '$e Error is something wrong');
       isNotValidate = true;
     }
+
     notifyListeners();
   }
 }

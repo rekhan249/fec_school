@@ -1,7 +1,5 @@
 // ignore_for_file: use_build_context_synchronously, unused_local_variable
-
 import 'dart:convert';
-import 'package:fec_app2/models/students_model.dart';
 import 'package:fec_app2/models/textformfield_model.dart';
 import 'package:fec_app2/screen_pages/dashboard.dart';
 import 'package:fec_app2/services.dart/urls_api.dart';
@@ -14,26 +12,30 @@ class ChildInfoProvider with ChangeNotifier {
       BuildContext context,
       List<TextFormFieldModel> textFields,
       final parentNameController,
-      final classController) async {
-    // ignore: unused_local_variable
+      final classController,
+      String token) async {
+    Map<String, dynamic> student = {
+      "children_name": [textFields[0].text.toString()]
+    };
     bool isNotValidate = false;
-    print(textFields[0].text);
-    AddStudent addStudent = AddStudent(
-        id: 3,
-        name: "unkown",
-        childrenName: textFields.map((e) => e.text).toString(),
-        email: "kkk@email.com",
-        emailVerifiedAt: "null",
-        role: 0,
-        status: 1,
-        createdAt: DateTime.now(),
-        updatedAt: DateTime.now());
-    var response = await http.post(Uri.parse(postStudents),
-        headers: {"Content-Type": "application/json", 'Charset': 'utf-8'},
-        body: json.encode(addStudent.toMap()));
 
-    Navigator.pushNamed(context, DashBoard.routeName);
-    Fluttertoast.showToast(msg: ' Student Created Successfully');
+    try {
+      var response = await http.post(Uri.parse(postStudents),
+          headers: {
+            'Content-type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer $token'
+          },
+          body: jsonEncode(student));
+      print('respose ${response.statusCode}');
+      if (response.statusCode == 200) {
+        Fluttertoast.showToast(msg: ' Student Created Successfully');
+        Navigator.pushNamed(context, DashBoard.routeName);
+      }
+    } catch (e) {
+      Fluttertoast.showToast(msg: '$e Something Went Wrong');
+      print('eeeeeeeeeeeeeee $e');
+    }
 
     notifyListeners();
   }

@@ -3,22 +3,30 @@ import 'dart:developer';
 import 'package:fec_app2/models/notices_model.dart';
 import 'package:fec_app2/services.dart/urls_api.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiService {
   Future<List<Notice>> getUsers() async {
+    final SharedPreferences preferences = await SharedPreferences.getInstance();
+    String? token = preferences.getString('token');
+    print('token $token');
     List<Notice>? noticesList = [];
     try {
       var url = Uri.parse(notice);
       var response = await http.get(
         url,
         headers: {
-          'Authorization': 'Bearer zZT5D4MvFApZYy8fJZFbBEutfecgqB24CfDq5pbu',
-          "Content-Type": "application/json"
+          'Authorization': 'Bearer $token',
+          "Content-Type": "application/json",
+          "Accept": 'application/json;charset=UTF-8',
+          'Charset': 'utf-8',
         },
       );
 
+      print('111111111111111111111111111${response.body}');
+      var jsonRespose = json.decode(response.body);
+      print('notice status code${response.statusCode}');
       if (response.statusCode == 200) {
-        var jsonRespose = json.decode(response.body);
         Notices notices = Notices.fromJson(jsonRespose);
         noticesList.addAll(notices.data);
       }

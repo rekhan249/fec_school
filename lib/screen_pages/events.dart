@@ -18,6 +18,7 @@ class EventScreen extends StatefulWidget {
 
 class _EventScreenState extends State<EventScreen> {
   final EventsProvider _eventsProvider = EventsProvider();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -106,15 +107,19 @@ class _EventScreenState extends State<EventScreen> {
 
                       return Padding(
                         padding: EdgeInsets.symmetric(horizontal: 20.w),
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(context, EventTitle.routeName);
-                          },
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: eventData!.length,
-                            itemBuilder: (context, index) {
-                              return Column(
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: eventData!.length,
+                          itemBuilder: (context, index) {
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => EventTitle(
+                                            eventsValue: eventData[index])));
+                              },
+                              child: Column(
                                 children: [
                                   Container(
                                     height: 140.h,
@@ -169,9 +174,9 @@ class _EventScreenState extends State<EventScreen> {
                                           const Divider(color: Colors.black26)),
                                   SizedBox(height: 10.h),
                                 ],
-                              );
-                            },
-                          ),
+                              ),
+                            );
+                          },
                         ),
                       );
                     } else {

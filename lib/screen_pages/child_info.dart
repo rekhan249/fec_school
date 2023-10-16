@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:fec_app2/providers/child_info_provider.dart';
 import 'package:fec_app2/providers/dynamic_formfield_prov.dart';
 import 'package:fec_app2/screen_pages/dashboard.dart';
@@ -8,6 +10,7 @@ import 'package:fec_app2/widgets/name_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ChildInformation extends StatefulWidget {
   static const String routeName = '/child-info';
@@ -32,7 +35,10 @@ class _ChildInformationState extends State<ChildInformation> {
     super.initState();
   }
 
-  void _submitStudentForm(BuildContext context) {
+  void _submitStudentForm(BuildContext context) async {
+    final SharedPreferences preferences = await SharedPreferences.getInstance();
+    String? token = preferences.getString('token');
+    print('token $token');
     bool isValid = _formKey.currentState!.validate();
     FocusScope.of(context).unfocus();
     if (!isValid) {
@@ -45,7 +51,8 @@ class _ChildInformationState extends State<ChildInformation> {
             Provider.of<TextFormFieldsProvider>(context, listen: false)
                 .textFields,
             _parentNameController.text,
-            _classController.text);
+            _classController.text,
+            token!);
   }
 
   @override

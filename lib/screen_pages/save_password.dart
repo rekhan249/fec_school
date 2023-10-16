@@ -1,4 +1,5 @@
 import 'package:fec_app2/providers/password_provider.dart';
+import 'package:fec_app2/providers/save_password_provider.dart';
 import 'package:fec_app2/screen_pages/dashboard.dart';
 import 'package:fec_app2/widgets/password_field.dart';
 import 'package:flutter/material.dart';
@@ -14,8 +15,35 @@ class SavePassword extends StatefulWidget {
 }
 
 class _SavePasswordState extends State<SavePassword> {
+  final _formKey = GlobalKey<FormState>();
+  final _currentPasswordController = TextEditingController();
   final _newPasswordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
+
+  void _submitSavePasswordForm(BuildContext context) {
+    bool isValid = _formKey.currentState!.validate();
+    FocusScope.of(context).unfocus();
+    if (!isValid) {
+      return;
+    }
+    _formKey.currentState!.save();
+    Provider.of<SavePasswordProvider>(context, listen: false)
+        .onSubmittedSavePasswordForm(
+      context,
+      _currentPasswordController.text.trim(),
+      _newPasswordController.text.trim(),
+      _confirmPasswordController.text.trim(),
+    );
+  }
+
+  @override
+  void dispose() {
+    _currentPasswordController.clear();
+    _newPasswordController.clear();
+    _confirmPasswordController.clear();
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,98 +91,116 @@ class _SavePasswordState extends State<SavePassword> {
                         color: Colors.white,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20.r)),
-                        child: Column(
-                          children: [
-                            SizedBox(height: 100.h),
-                            Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Consumer<PasswordProvider>(
-                                  builder: ((context, pp, child) =>
-                                      PasswordField(
-                                        passwordController:
-                                            _newPasswordController,
-                                        passwordProvider: passwordProvider,
-                                        hintText: 'Enter New password',
-                                        labelText: 'New password',
-                                        icon: Icon(passwordProvider.isObscure
-                                            ? Icons.visibility_off
-                                            : Icons.visibility),
-                                      ))),
-                            ),
-                            SizedBox(height: 10.h),
-                            Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Consumer<PasswordProvider>(
-                                  builder: ((context, pp, child) =>
-                                      PasswordField(
-                                        passwordController:
-                                            _confirmPasswordController,
-                                        passwordProvider: passwordProvider,
-                                        hintText: 'Enter confirm password',
-                                        labelText: 'Confirm password',
-                                        icon: Icon(passwordProvider.isObscure
-                                            ? Icons.visibility_off
-                                            : Icons.visibility),
-                                      ))),
-                            ),
-                            SizedBox(height: 60.h),
-                            SizedBox(
-                                height: 50.h,
-                                width: double.infinity.w,
-                                child: Padding(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 60.w),
-                                  child: TextButton(
-                                      onPressed: () {
-                                        Navigator.pushNamed(
-                                            context, DashBoard.routeName);
-                                      },
-                                      style: ButtonStyle(
-                                          backgroundColor:
-                                              MaterialStateProperty.all(
-                                                  const Color.fromARGB(
-                                                      255, 25, 74, 159))),
-                                      child: Text('Save Password',
-                                          style: TextStyle(
-                                              fontSize: 17.sp,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.white))),
-                                )),
-                            SizedBox(height: 30.h),
+                        child: Form(
+                          key: _formKey,
+                          child: Column(
+                            children: [
+                              SizedBox(height: 60.h),
+                              Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Consumer<PasswordProvider>(
+                                    builder: ((context, pp, child) =>
+                                        PasswordField(
+                                          passwordController:
+                                              _currentPasswordController,
+                                          passwordProvider: passwordProvider,
+                                          hintText: 'Enter Current password',
+                                          labelText: 'Current password',
+                                          icon: Icon(passwordProvider.isObscure
+                                              ? Icons.visibility_off
+                                              : Icons.visibility),
+                                        ))),
+                              ),
+                              SizedBox(height: 10.h),
+                              Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Consumer<PasswordProvider>(
+                                    builder: ((context, pp, child) =>
+                                        PasswordField(
+                                          passwordController:
+                                              _newPasswordController,
+                                          passwordProvider: passwordProvider,
+                                          hintText: 'Enter New password',
+                                          labelText: 'New password',
+                                          icon: Icon(passwordProvider.isObscure
+                                              ? Icons.visibility_off
+                                              : Icons.visibility),
+                                        ))),
+                              ),
+                              SizedBox(height: 10.h),
+                              Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Consumer<PasswordProvider>(
+                                    builder: ((context, pp, child) =>
+                                        PasswordField(
+                                          passwordController:
+                                              _confirmPasswordController,
+                                          passwordProvider: passwordProvider,
+                                          hintText: 'Enter confirm password',
+                                          labelText: 'Confirm password',
+                                          icon: Icon(passwordProvider.isObscure
+                                              ? Icons.visibility_off
+                                              : Icons.visibility),
+                                        ))),
+                              ),
+                              SizedBox(height: 20.h),
+                              SizedBox(
+                                  height: 50.h,
+                                  width: double.infinity.w,
+                                  child: Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 60.w),
+                                    child: TextButton(
+                                        onPressed: () {
+                                          _submitSavePasswordForm(context);
+                                        },
+                                        style: ButtonStyle(
+                                            backgroundColor:
+                                                MaterialStateProperty.all(
+                                                    const Color.fromARGB(
+                                                        255, 25, 74, 159))),
+                                        child: Text('Save Password',
+                                            style: TextStyle(
+                                                fontSize: 17.sp,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white))),
+                                  )),
+                              SizedBox(height: 30.h),
 
-                            // Padding(
-                            //   padding: const EdgeInsets.all(15),
-                            //   child: Align(
-                            //     alignment: Alignment.center,
-                            //     child: RichText(
-                            //       text: TextSpan(
-                            //         children: [
-                            //           TextSpan(
-                            //             text: 'Allready have an account!',
-                            //             style: TextStyle(
-                            //               color: Colors.black,
-                            //               fontWeight: FontWeight.bold,
-                            //               fontSize: 16.sp,
-                            //             ),
-                            //           ),
-                            //           TextSpan(
-                            //               text: 'Login',
-                            //               style: TextStyle(
-                            //                   color: Colors.red,
-                            //                   fontWeight: FontWeight.bold,
-                            //                   fontSize: 18.sp),
-                            //               recognizer: TapGestureRecognizer()
-                            //                 ..onTap = () => Navigator.push(
-                            //                     context,
-                            //                     MaterialPageRoute(
-                            //                         builder: (context) =>
-                            //                             const LoginScreen())))
-                            //         ],
-                            //       ),
-                            //     ),
-                            //   ),
-                            // ),
-                          ],
+                              // Padding(
+                              //   padding: const EdgeInsets.all(15),
+                              //   child: Align(
+                              //     alignment: Alignment.center,
+                              //     child: RichText(
+                              //       text: TextSpan(
+                              //         children: [
+                              //           TextSpan(
+                              //             text: 'Allready have an account!',
+                              //             style: TextStyle(
+                              //               color: Colors.black,
+                              //               fontWeight: FontWeight.bold,
+                              //               fontSize: 16.sp,
+                              //             ),
+                              //           ),
+                              //           TextSpan(
+                              //               text: 'Login',
+                              //               style: TextStyle(
+                              //                   color: Colors.red,
+                              //                   fontWeight: FontWeight.bold,
+                              //                   fontSize: 18.sp),
+                              //               recognizer: TapGestureRecognizer()
+                              //                 ..onTap = () => Navigator.push(
+                              //                     context,
+                              //                     MaterialPageRoute(
+                              //                         builder: (context) =>
+                              //                             const LoginScreen())))
+                              //         ],
+                              //       ),
+                              //     ),
+                              //   ),
+                              // ),
+                            ],
+                          ),
                         ),
                       ),
                     ),

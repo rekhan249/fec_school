@@ -14,21 +14,26 @@ class SignUpProvider with ChangeNotifier {
 
     UserModelSignup? userModelSignup =
         UserModelSignup(name: username, email: email, password: password);
+    try {
+      var response = await http.post(Uri.parse(registration),
+          headers: {
+            "Accept": 'application/json;charset=UTF-8',
+            'Charset': 'utf-8',
+            'Content-Type': 'application/json'
+          },
+          body: json.encode(userModelSignup.toMap()));
 
-    var response = await http.post(Uri.parse(registration),
-        headers: {"Content-Type": "application/json"},
-        body: jsonEncode(userModelSignup.toMap()));
+      var jsonRespose = jsonDecode(response.body.toString());
 
-    var jsonRespose = jsonDecode(response.body);
-
-    if (jsonRespose['status']) {
-      Fluttertoast.showToast(
-          msg: '${jsonRespose['status']} Account Created Successfully');
-      // ignore: use_build_context_synchronously
-      Navigator.pushNamed(context, LoginScreen.routeName);
-    } else {
+      if (jsonRespose['status']) {
+        Fluttertoast.showToast(
+            msg: '${jsonRespose['status']} Account Created Successfully');
+        // ignore: use_build_context_synchronously
+        Navigator.pushNamed(context, LoginScreen.routeName);
+      }
+    } catch (e) {
       isNotValidate = true;
-      Fluttertoast.showToast(msg: 'Account is not created yet');
+      Fluttertoast.showToast(msg: '$e Account is not created yet');
     }
 
     notifyListeners();

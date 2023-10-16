@@ -1,6 +1,7 @@
 import 'package:fec_app2/providers/login_provider.dart';
 import 'package:fec_app2/providers/password_provider.dart';
 import 'package:fec_app2/providers/switching_provvider.dart';
+import 'package:fec_app2/screen_pages/reset_password.dart';
 import 'package:fec_app2/screen_pages/signup_screen.dart';
 import 'package:fec_app2/widgets/email_field.dart';
 import 'package:fec_app2/widgets/password_field.dart';
@@ -152,7 +153,10 @@ class _LoginScreenState extends State<LoginScreen> {
                             Align(
                                 alignment: Alignment.bottomRight,
                                 child: TextButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Navigator.pushReplacementNamed(
+                                          context, ResetPassword.routeName);
+                                    },
                                     child: Text('Forget Password',
                                         style: TextStyle(
                                             color: Colors.black,

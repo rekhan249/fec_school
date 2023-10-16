@@ -4,3 +4,5 @@ const notice = "http://froebelapp.com/api/get/notice/";
 const event = "http://froebelapp.com/api/get/event";
 const folder = "http://froebelapp.com/api/get/folder";
 const postStudents = "http://froebelapp.com/api/add/student";
+const forgetPassword = "http://froebelapp.com/api/auth/forgot";
+const changeSavePassword = "http://froebelapp.com/api/auth/change-password";
