@@ -19,9 +19,6 @@ class ResetPasswordProvider with ChangeNotifier {
           body: json.encode(forgetPassEmail!.toMap()));
 
       var jsonResponse = await json.decode(json.encode(response.body));
-      print(111111111111);
-      print(jsonResponse);
-      print(111111111111);
 
       if (jsonResponse['status'] == true) {
         Fluttertoast.showToast(
