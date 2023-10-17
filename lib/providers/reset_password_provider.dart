@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:fec_app2/models/forget_pass_model.dart';
+import 'package:fec_app2/screen_pages/login_screen.dart';
 import 'package:fec_app2/screen_pages/save_password.dart';
 import 'package:fec_app2/services.dart/urls_api.dart';
 import 'package:flutter/material.dart';
@@ -19,16 +20,15 @@ class ResetPasswordProvider with ChangeNotifier {
           body: json.encode(forgetPassEmail!.toMap()));
 
       if (response.statusCode == 200) {
-        print(
-            'rrrrrrrrrrrrrrreeeeeeeeeeeeeeeeeeee ${response.body.toString()}');
+      
         Fluttertoast.showToast(
             msg: 'Email has been sent with password reset link');
       }
       // ignore: use_build_context_synchronously
-      Navigator.pushNamed(context, SavePassword.routeName);
+      Navigator.pushNamed(context, LoginScreen.routeName);
     } catch (e) {
-      Fluttertoast.showToast(msg: '$e SomeThing went wrong');
-      print(e.toString());
+      Fluttertoast.showToast(msg: 'SomeThing went wrong');
+    
     }
 
     notifyListeners();

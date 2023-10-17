@@ -26,7 +26,6 @@ class EventsProvider {
 
       var jsonRespose = json.decode(response.body);
 
-      Fluttertoast.showToast(msg: '${response.body.toString()}');
       if (response.statusCode == 200) {
         Events events = Events.fromMap(jsonRespose);
         eventsList.addAll(events.data);

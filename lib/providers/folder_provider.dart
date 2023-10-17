@@ -24,9 +24,7 @@ class FolderProvider {
         },
       );
 
-      Fluttertoast.showToast(msg: '${response.body.toString()}');
       var jsonRespose = json.decode(response.body);
-
       if (response.statusCode == 200) {
         Folders folders = Folders.fromMap(jsonRespose);
         foldersList.addAll(folders.data);
