@@ -10,7 +10,7 @@ import 'package:http/http.dart' as http;
 class SavePasswordProvider with ChangeNotifier {
   SaveChangePasswordModel? saveChangePasswordModel;
   void onSubmittedSavePasswordForm(BuildContext context, final currentControll,
-      final newPassword, final confirmPassword) async {
+      final newPassword, final confirmPassword, String? token) async {
     saveChangePasswordModel = SaveChangePasswordModel(
         currentPassword: currentControll,
         newPassword: newPassword,
@@ -20,7 +20,8 @@ class SavePasswordProvider with ChangeNotifier {
           headers: {
             "Accept": 'application/json;charset=UTF-8',
             'Charset': 'utf-8',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer $token'
           },
           body: json.encode(saveChangePasswordModel!.toMap()));
       var jsonResponse = await json.decode(json.encode(response.body));

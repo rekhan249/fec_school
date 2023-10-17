@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:fec_app2/providers/password_provider.dart';
 import 'package:fec_app2/providers/save_password_provider.dart';
 import 'package:fec_app2/screen_pages/dashboard.dart';
@@ -5,6 +7,7 @@ import 'package:fec_app2/widgets/password_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SavePassword extends StatefulWidget {
   static const String routeName = '/save-password';
@@ -20,7 +23,10 @@ class _SavePasswordState extends State<SavePassword> {
   final _newPasswordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
 
-  void _submitSavePasswordForm(BuildContext context) {
+  void _submitSavePasswordForm(BuildContext context) async {
+    final SharedPreferences preferences = await SharedPreferences.getInstance();
+    String? token = preferences.getString('token');
+    print('token $token');
     bool isValid = _formKey.currentState!.validate();
     FocusScope.of(context).unfocus();
     if (!isValid) {
@@ -29,11 +35,11 @@ class _SavePasswordState extends State<SavePassword> {
     _formKey.currentState!.save();
     Provider.of<SavePasswordProvider>(context, listen: false)
         .onSubmittedSavePasswordForm(
-      context,
-      _currentPasswordController.text.trim(),
-      _newPasswordController.text.trim(),
-      _confirmPasswordController.text.trim(),
-    );
+            context,
+            _currentPasswordController.text.trim(),
+            _newPasswordController.text.trim(),
+            _confirmPasswordController.text.trim(),
+            token);
   }
 
   @override

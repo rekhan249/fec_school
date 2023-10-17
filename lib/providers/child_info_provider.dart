@@ -8,14 +8,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 
 class ChildInfoProvider with ChangeNotifier {
-  void onSubmittedStudentsForm(
-      BuildContext context,
-      List<TextFormFieldModel> textFields,
-      final parentNameController,
-      final classController,
-      String token) async {
+  void onSubmittedStudentsForm(BuildContext context,
+      List<TextFormFieldModel> textFields, String token) async {
     Map<String, dynamic> student = {
-      "children_name": [textFields[0].text.toString()]
+      "children_name": ['${textFields.map((e) => e.toMap())}']
     };
     bool isNotValidate = false;
 
@@ -27,7 +23,7 @@ class ChildInfoProvider with ChangeNotifier {
             'Authorization': 'Bearer $token'
           },
           body: jsonEncode(student));
-      print('respose ${response.statusCode}');
+      print('respose ${response.body.toString()}');
       if (response.statusCode == 200) {
         Fluttertoast.showToast(msg: ' Student Created Successfully');
         Navigator.pushNamed(context, DashBoard.routeName);

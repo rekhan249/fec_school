@@ -30,11 +30,6 @@ class EventsProvider {
       if (response.statusCode == 200) {
         Events events = Events.fromMap(jsonRespose);
         eventsList.addAll(events.data);
-        if (jsonRespose['status']) {
-          Fluttertoast.showToast(msg: ' Working Successfully');
-        } else {
-          Fluttertoast.showToast(msg: 'Error is something wrong');
-        }
       }
     } catch (e) {
       log(e.toString());

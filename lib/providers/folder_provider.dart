@@ -1,4 +1,4 @@
-// ignore_for_file: unused_element
+// ignore_for_file: unused_element, unnecessary_string_interpolations
 import 'dart:convert';
 import 'dart:developer';
 import 'package:fec_app2/models/folders_model.dart';
@@ -24,18 +24,12 @@ class FolderProvider {
         },
       );
 
-      print('111111111111111111111111111${response.body}');
+      Fluttertoast.showToast(msg: '${response.body.toString()}');
       var jsonRespose = json.decode(response.body);
-      print('form status code${response.statusCode}');
+
       if (response.statusCode == 200) {
         Folders folders = Folders.fromMap(jsonRespose);
         foldersList.addAll(folders.data);
-        if (jsonRespose['status']) {
-          Fluttertoast.showToast(
-              msg: '${jsonRespose['status']} Working Successfully');
-        } else {
-          Fluttertoast.showToast(msg: ' Error is something wrong');
-        }
       }
     } catch (e) {
       log(e.toString());

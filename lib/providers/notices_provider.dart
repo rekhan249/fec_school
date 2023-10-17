@@ -23,9 +23,8 @@ class ApiService {
         },
       );
 
-      print('111111111111111111111111111${response.body}');
       var jsonRespose = json.decode(response.body);
-      print('notice status code${response.statusCode}');
+
       if (response.statusCode == 200) {
         Notices notices = Notices.fromJson(jsonRespose);
         noticesList.addAll(notices.data);

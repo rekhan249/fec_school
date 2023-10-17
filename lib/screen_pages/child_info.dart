@@ -22,8 +22,9 @@ class ChildInformation extends StatefulWidget {
 
 class _ChildInformationState extends State<ChildInformation> {
   final _formKey = GlobalKey<FormState>();
-  final _parentNameController = TextEditingController();
-  final _classController = TextEditingController();
+  final _nameDynamiController = TextEditingController();
+  // final _parentNameController = TextEditingController();
+  // final _classController = TextEditingController();
 
   NotificationServices? notifyServices;
   @override
@@ -50,15 +51,11 @@ class _ChildInformationState extends State<ChildInformation> {
             context,
             Provider.of<TextFormFieldsProvider>(context, listen: false)
                 .textFields,
-            _parentNameController.text,
-            _classController.text,
             token!);
   }
 
   @override
   void dispose() {
-    _parentNameController.clear();
-    _classController.clear();
     Provider.of<TextFormFieldsProvider>(context, listen: false)
         .textFields
         .clear();
@@ -128,10 +125,6 @@ class _ChildInformationState extends State<ChildInformation> {
                                   left: 0.w,
                                   child: IconButton(
                                       onPressed: () {
-                                        notifyServices?.displayNotification(
-                                            title: "We add new child",
-                                            body: "Notify me");
-                                        notifyServices!.scheduledNotification();
                                         Navigator.popAndPushNamed(
                                             context, DashBoard.routeName);
                                       },
@@ -227,7 +220,8 @@ class _ChildInformationState extends State<ChildInformation> {
                                             color: Color.fromARGB(
                                                 255, 25, 74, 159)),
                                         onPressed: () {
-                                          provider.addTextField('');
+                                          provider.addTextField("");
+                                          _nameDynamiController.clear();
                                         },
                                       ),
                                       IconButton(
@@ -249,37 +243,37 @@ class _ChildInformationState extends State<ChildInformation> {
                   ],
                 ),
               ),
-              SizedBox(height: 10.h),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 25.h),
-                child: Text(
-                  'Parent Name:',
-                  style: TextStyle(fontSize: 16.sp, color: Colors.black),
-                ),
-              ),
-              SizedBox(height: 05.h),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 25.h),
-                child: NameField(
-                  nameController: _parentNameController,
-                  hintText: 'Enter Your Parent Name',
-                  labelText: 'Parent Name',
-                ),
-              ),
-              SizedBox(height: 10.h),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 25.h),
-                child: Text(
-                  'Class:',
-                  style: TextStyle(fontSize: 16.sp, color: Colors.black),
-                ),
-              ),
-              SizedBox(height: 05.h),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 25.h),
-                child: ClassGrade(classController: _classController),
-              ),
-              SizedBox(height: 50.h),
+              // SizedBox(height: 10.h),
+              // Padding(
+              //   padding: EdgeInsets.symmetric(horizontal: 25.h),
+              //   child: Text(
+              //     'Parent Name:',
+              //     style: TextStyle(fontSize: 16.sp, color: Colors.black),
+              //   ),
+              // ),
+              // SizedBox(height: 05.h),
+              // Padding(
+              //   padding: EdgeInsets.symmetric(horizontal: 25.h),
+              //   child: NameField(
+              //     nameController: _parentNameController,
+              //     hintText: 'Enter Your Parent Name',
+              //     labelText: 'Parent Name',
+              //   ),
+              // ),
+              // SizedBox(height: 10.h),
+              // Padding(
+              //   padding: EdgeInsets.symmetric(horizontal: 25.h),
+              //   child: Text(
+              //     'Class:',
+              //     style: TextStyle(fontSize: 16.sp, color: Colors.black),
+              //   ),
+              // ),
+              // SizedBox(height: 05.h),
+              // Padding(
+              //   padding: EdgeInsets.symmetric(horizontal: 25.h),
+              //   child: ClassGrade(classController: _classController),
+              // ),
+              SizedBox(height: 30.h),
               SizedBox(
                   height: 50.h,
                   width: double.infinity.w,
