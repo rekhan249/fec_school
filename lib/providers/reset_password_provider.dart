@@ -18,9 +18,9 @@ class ResetPasswordProvider with ChangeNotifier {
           },
           body: json.encode(forgetPassEmail!.toMap()));
 
-      var jsonResponse = await json.decode(json.encode(response.body));
-
-      if (jsonResponse['status'] == true) {
+      if (response.statusCode == 200) {
+        print(
+            'rrrrrrrrrrrrrrreeeeeeeeeeeeeeeeeeee ${response.body.toString()}');
         Fluttertoast.showToast(
             msg: 'Email has been sent with password reset link');
       }
