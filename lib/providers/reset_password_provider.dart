@@ -13,8 +13,7 @@ class ResetPasswordProvider with ChangeNotifier {
     try {
       var response = await http.post(Uri.parse(forgetPassword),
           headers: {
-            "Accept": 'application/json;charset=UTF-8',
-            'Charset': 'utf-8',
+            "Accept": 'application/json',
             'Content-Type': 'application/json'
           },
           body: json.encode(forgetPassEmail!.toMap()));
@@ -32,6 +31,7 @@ class ResetPasswordProvider with ChangeNotifier {
       Navigator.pushNamed(context, SavePassword.routeName);
     } catch (e) {
       Fluttertoast.showToast(msg: '$e SomeThing went wrong');
+      print(e.toString());
     }
 
     notifyListeners();

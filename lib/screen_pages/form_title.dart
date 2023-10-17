@@ -27,7 +27,7 @@ class _FormTitleState extends State<FormTitle> {
           title: ListTile(
             title: Text(
               widget.folderValue.name.toString(),
-              style: TextStyle(color: Colors.white, fontSize: 18.sp),
+              style: TextStyle(color: Colors.white, fontSize: 14.sp),
             ),
             subtitle: Text(
               widget.folderValue.createdAt.toString(),

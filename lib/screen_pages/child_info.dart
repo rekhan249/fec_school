@@ -28,10 +28,10 @@ class _ChildInformationState extends State<ChildInformation> {
   NotificationServices? notifyServices;
   @override
   void initState() {
-    notifyServices = NotificationServices();
-    notifyServices!.initializationNotifications();
-    notifyServices!.displayNotification(
-        title: 'Welcome to Flutter', body: "This is Child Screen");
+    // notifyServices = NotificationServices();
+    // notifyServices!.initializationNotifications();
+    // notifyServices!.displayNotification(
+    //     title: 'Welcome to Flutter', body: "This is Child Screen");
     super.initState();
   }
 

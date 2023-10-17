@@ -142,7 +142,7 @@ class _NoticesScreenState extends State<NoticesScreen> {
                                               SizedBox(height: 05.h),
                                               Text(
                                                   noticeData[index]
-                                                      .description
+                                                      .summary
                                                       .toString(),
                                                   style: TextStyle(
                                                       fontSize: 12.sp)),

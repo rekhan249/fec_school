@@ -38,8 +38,9 @@ class LoginProvider with ChangeNotifier {
         // ignore: use_build_context_synchronously
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => const DashBoard()));
-        Fluttertoast.showToast(
-            msg: '${jsonRespose['status']} Login Successfully');
+        Fluttertoast.showToast(msg: 'User Login Successfully');
+      } else {
+        Fluttertoast.showToast(msg: 'Invalid credentials');
       }
     } catch (e) {
       Fluttertoast.showToast(msg: '$e Error is something wrong');

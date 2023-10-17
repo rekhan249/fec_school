@@ -27,7 +27,7 @@ class _EventTitleState extends State<EventTitle> {
           title: ListTile(
             title: Text(
               widget.eventsValue.title.toString(),
-              style: TextStyle(color: Colors.white, fontSize: 18.sp),
+              style: TextStyle(color: Colors.white, fontSize: 14.sp),
             ),
             subtitle: Text(
               widget.eventsValue.createdAt.toString(),

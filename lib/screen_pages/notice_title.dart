@@ -27,7 +27,7 @@ class _NoticeTitleState extends State<NoticeTitle> {
         title: ListTile(
           title: Text(
             widget.noticeValue.title.toString(),
-            style: TextStyle(color: Colors.white, fontSize: 18.sp),
+            style: TextStyle(color: Colors.white, fontSize: 14.sp),
           ),
           subtitle: Text(
             widget.noticeValue.createdAt.toString(),

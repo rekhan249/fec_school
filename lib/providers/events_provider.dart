@@ -1,4 +1,4 @@
-// ignore_for_file: unused_element, unused_local_variable
+// ignore_for_file: unused_element, unused_local_variable, unnecessary_string_interpolations
 import 'dart:convert';
 import 'dart:developer';
 import 'package:fec_app2/models/events_model.dart';
@@ -17,23 +17,21 @@ class EventsProvider {
       var response = await http.get(
         url,
         headers: {
-          'Authorization':
-              'Bearer 28|bnVOtJBd29J9DkvFmoRcOSFIjjMmoZsbF7dHxpEK501cb173',
+          'Authorization': 'Bearer $token',
           "Content-Type": "application/json",
           "Accept": 'application/json;charset=UTF-8',
           'Charset': 'utf-8',
         },
       );
 
-      print('111111111111111111111111111${response.body.toString()}');
       var jsonRespose = json.decode(response.body);
-      print('event status code${response.statusCode}');
+
+      Fluttertoast.showToast(msg: '${response.body.toString()}');
       if (response.statusCode == 200) {
         Events events = Events.fromMap(jsonRespose);
         eventsList.addAll(events.data);
         if (jsonRespose['status']) {
-          Fluttertoast.showToast(
-              msg: '${jsonRespose['status']} Working Successfully');
+          Fluttertoast.showToast(msg: ' Working Successfully');
         } else {
           Fluttertoast.showToast(msg: 'Error is something wrong');
         }

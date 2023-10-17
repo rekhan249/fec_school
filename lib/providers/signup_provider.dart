@@ -26,8 +26,7 @@ class SignUpProvider with ChangeNotifier {
       var jsonRespose = jsonDecode(response.body.toString());
 
       if (jsonRespose['status']) {
-        Fluttertoast.showToast(
-            msg: '${jsonRespose['status']} Account Created Successfully');
+        Fluttertoast.showToast(msg: 'Account Created Successfully');
         // ignore: use_build_context_synchronously
         Navigator.pushNamed(context, LoginScreen.routeName);
       }

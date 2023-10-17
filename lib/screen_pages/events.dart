@@ -133,12 +133,7 @@ class _EventScreenState extends State<EventScreen> {
                                         padding: const EdgeInsets.all(12.0),
                                         child: ListTile(
                                           title: Text(
-                                            eventData[index]
-                                                .toMap()
-                                                .entries
-                                                .first
-                                                .value
-                                                .toString(),
+                                            eventData[index].title.toString(),
                                             style: TextStyle(fontSize: 15.sp),
                                           ),
                                           subtitle: Column(
@@ -148,9 +143,7 @@ class _EventScreenState extends State<EventScreen> {
                                               SizedBox(height: 05.h),
                                               Text(
                                                   eventData[index]
-                                                      .toMap()
-                                                      .entries
-                                                      .map((e) => e.value)
+                                                      .summary
                                                       .toString(),
                                                   style: TextStyle(
                                                       fontSize: 12.sp)),
