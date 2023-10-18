@@ -11,10 +11,18 @@ class ChildInfoProvider with ChangeNotifier {
   void onSubmittedStudentsForm(BuildContext context,
       List<TextFormFieldModel> textFields, String token) async {
     Map<String, dynamic> student = {
-      "children_name": ['${textFields.map((e) => e.toMap())}']
+      "children_name": [textFields.elementAt(0).text.toString()]
+    };
+
+    Map<String, dynamic> student1 = {
+      "children_name": [
+        for (int i = 0; i < textFields.length; i++)
+          textFields[i].text.toString()
+      ]
     };
     bool isNotValidate = false;
 
+    print('ppppppppppp ${student1}');
     try {
       var response = await http.post(Uri.parse(postStudents),
           headers: {
@@ -22,7 +30,7 @@ class ChildInfoProvider with ChangeNotifier {
             'Accept': 'application/json',
             'Authorization': 'Bearer $token'
           },
-          body: jsonEncode(student));
+          body: jsonEncode(student1));
       print('respose ${response.body.toString()}');
       if (response.statusCode == 200) {
         Fluttertoast.showToast(msg: ' Student Created Successfully');

@@ -4,9 +4,7 @@ import 'package:fec_app2/providers/child_info_provider.dart';
 import 'package:fec_app2/providers/dynamic_formfield_prov.dart';
 import 'package:fec_app2/screen_pages/dashboard.dart';
 import 'package:fec_app2/services.dart/notification.dart';
-import 'package:fec_app2/widgets/class_grade.dart';
 import 'package:fec_app2/widgets/curved_botton.dart';
-import 'package:fec_app2/widgets/name_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -22,7 +20,7 @@ class ChildInformation extends StatefulWidget {
 
 class _ChildInformationState extends State<ChildInformation> {
   final _formKey = GlobalKey<FormState>();
-  final _nameDynamiController = TextEditingController();
+
   // final _parentNameController = TextEditingController();
   // final _classController = TextEditingController();
 
@@ -52,14 +50,6 @@ class _ChildInformationState extends State<ChildInformation> {
             Provider.of<TextFormFieldsProvider>(context, listen: false)
                 .textFields,
             token!);
-  }
-
-  @override
-  void dispose() {
-    Provider.of<TextFormFieldsProvider>(context, listen: false)
-        .textFields
-        .clear();
-    super.dispose();
   }
 
   @override
@@ -221,7 +211,6 @@ class _ChildInformationState extends State<ChildInformation> {
                                                 255, 25, 74, 159)),
                                         onPressed: () {
                                           provider.addTextField("");
-                                          _nameDynamiController.clear();
                                         },
                                       ),
                                       IconButton(
