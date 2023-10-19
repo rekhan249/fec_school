@@ -10,9 +10,9 @@ import 'package:http/http.dart' as http;
 class ChildInfoProvider with ChangeNotifier {
   void onSubmittedStudentsForm(BuildContext context,
       List<TextFormFieldModel> textFields, String token) async {
-    Map<String, dynamic> student = {
-      "children_name": [textFields.elementAt(0).text.toString()]
-    };
+    // Map<String, dynamic> student = {
+    //   "children_name": [textFields.elementAt(0).text.toString()]
+    // };
 
     Map<String, dynamic> student1 = {
       "children_name": [
