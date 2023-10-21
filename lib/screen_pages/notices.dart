@@ -121,7 +121,6 @@ class _NoticesScreenState extends State<NoticesScreen> {
                                                     noticeData[index])));
                                   },
                                   child: Container(
-                                    height: 140.h,
                                     width: double.infinity.w,
                                     decoration: BoxDecoration(
                                         color: Colors.grey.shade200,

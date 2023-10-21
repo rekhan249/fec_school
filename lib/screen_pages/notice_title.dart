@@ -42,32 +42,33 @@ class _NoticeTitleState extends State<NoticeTitle> {
         ],
       ),
       body: SingleChildScrollView(
-          child: Column(
-        children: [
-          ClipPath(
-            clipper: StraightBorderClipper(
-                borderWidth: 0), // Adjust the border width as needed
-            child: Container(
-              height: 10.h,
-              width: double.infinity.w,
-              color: Colors.amber,
-            ),
+          child: Column(children: [
+        ClipPath(
+          clipper: StraightBorderClipper(
+              borderWidth: 0), // Adjust the border width as needed
+          child: Container(
+            height: 10.h,
+            width: double.infinity.w,
+            color: Colors.amber,
           ),
-          SizedBox(height: 10.h),
-          Container(
-              decoration: BoxDecoration(
-                  color: Colors.grey.shade100,
-                  shape: BoxShape.rectangle,
-                  borderRadius: BorderRadius.circular(10.r)),
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w),
-                child: Center(
-                  child: Text(widget.noticeValue.description.toString(),
-                      style: TextStyle(fontSize: 14.sp)),
-                ),
-              ))
-        ],
-      )),
+        ),
+        SizedBox(height: 10.h),
+        Container(
+            decoration: BoxDecoration(
+                color: Colors.grey.shade100,
+                shape: BoxShape.rectangle,
+                borderRadius: BorderRadius.circular(10.r)),
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20.w),
+              child: Center(
+                child: Text(widget.noticeValue.description.toString(),
+                    style: TextStyle(fontSize: 14.sp)),
+              ),
+            )),
+        if (widget.noticeValue.type != null)
+          Text('Type: ${widget.noticeValue.type.toString()}',
+              style: TextStyle(fontSize: 16.sp)),
+      ])),
     ));
   }
 }

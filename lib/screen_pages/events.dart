@@ -122,7 +122,6 @@ class _EventScreenState extends State<EventScreen> {
                               child: Column(
                                 children: [
                                   Container(
-                                    height: 140.h,
                                     width: double.infinity.w,
                                     decoration: BoxDecoration(
                                         color: Colors.grey.shade200,
