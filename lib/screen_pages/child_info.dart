@@ -37,7 +37,6 @@ class _ChildInformationState extends State<ChildInformation> {
   void _submitStudentForm(BuildContext context) async {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
     String? token = preferences.getString('token');
-    print('token $token');
     bool isValid = _formKey.currentState!.validate();
     FocusScope.of(context).unfocus();
     if (!isValid) {
@@ -191,16 +190,16 @@ class _ChildInformationState extends State<ChildInformation> {
                                         provider.textFields[index].text =
                                             newText;
                                       },
-                                      validator: ((value) {
-                                        if (value == null || value.isEmpty) {
-                                          return 'Please enter full name';
-                                        } else if (!RegExp(
-                                                r"^[a-zA-Z]+(?:\s[a-zA-Z]+)+$")
-                                            .hasMatch(value)) {
-                                          return 'Please enter valid name';
-                                        }
-                                        return null;
-                                      }),
+                                      // validator: ((value) {
+                                      //   if (value == null || value.isEmpty) {
+                                      //     return 'Please enter full name';
+                                      //   } else if (!RegExp(
+                                      //           r"^[a-zA-Z]+(?:\s[a-zA-Z]+)+$")
+                                      //       .hasMatch(value)) {
+                                      //     return 'Please enter valid name';
+                                      //   }
+                                      //   return null;
+                                      // }),
                                     ),
                                   ),
                                   Row(

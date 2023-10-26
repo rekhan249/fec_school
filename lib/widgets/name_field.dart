@@ -34,10 +34,9 @@ class NameField extends StatelessWidget {
       validator: ((value) {
         if (value == null || value.isEmpty) {
           return 'Please enter your name';
+        } else if (!RegExp(r"^[a-zA-Z]+(?:\s[a-zA-Z]+)+$").hasMatch(value)) {
+          return 'Please enter valid name';
         }
-        //  else if (!RegExp(r"^[a-zA-Z]+(?:\s[a-zA-Z]+)+$").hasMatch(value)) {
-        //   return 'Please enter valid name';
-        // }
         return null;
       }),
     );

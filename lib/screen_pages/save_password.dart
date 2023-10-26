@@ -2,7 +2,6 @@
 
 import 'package:fec_app2/providers/password_provider.dart';
 import 'package:fec_app2/providers/save_password_provider.dart';
-import 'package:fec_app2/screen_pages/dashboard.dart';
 import 'package:fec_app2/widgets/password_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -26,7 +25,7 @@ class _SavePasswordState extends State<SavePassword> {
   void _submitSavePasswordForm(BuildContext context) async {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
     String? token = preferences.getString('token');
-    print('token $token');
+
     bool isValid = _formKey.currentState!.validate();
     FocusScope.of(context).unfocus();
     if (!isValid) {
