@@ -3,6 +3,7 @@ import 'package:fec_app2/screen_pages/events.dart';
 import 'package:fec_app2/widgets/curved_botton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:html/parser.dart';
 
 class EventTitle extends StatefulWidget {
   final Event eventsValue;
@@ -10,6 +11,12 @@ class EventTitle extends StatefulWidget {
 
   @override
   State<EventTitle> createState() => _EventTitleState();
+}
+
+String removeHtmlTags(String htmlString) {
+  var document = parse(htmlString);
+  String parsedString = parse(document.body!.text).documentElement!.text;
+  return parsedString;
 }
 
 class _EventTitleState extends State<EventTitle> {
@@ -60,7 +67,8 @@ class _EventTitleState extends State<EventTitle> {
                     borderRadius: BorderRadius.circular(10.r)),
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20.w),
-                  child: Text(widget.eventsValue.description.toString(),
+                  child: Text(
+                      removeHtmlTags(widget.eventsValue.description.toString()),
                       style: TextStyle(fontSize: 15.sp)),
                 ))
           ],

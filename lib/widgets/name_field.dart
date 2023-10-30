@@ -34,8 +34,6 @@ class NameField extends StatelessWidget {
       validator: (value) {
         if (value == null || value.isEmpty) {
           return 'Please enter your name';
-        } else if (value.length < 25) {
-          return 'required 20 characters is valid';
         }
 
         return null;

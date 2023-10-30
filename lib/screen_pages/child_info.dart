@@ -193,8 +193,6 @@ class _ChildInformationState extends State<ChildInformation> {
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
                                           return 'Please enter name';
-                                        } else if (value.length < 25) {
-                                          return 'required 20 characters is valid';
                                         }
                                         return null;
                                       },
