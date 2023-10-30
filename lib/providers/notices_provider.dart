@@ -9,7 +9,7 @@ class ApiService {
   Future<List<Notice>> getUsers() async {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
     String? token = preferences.getString('token');
-    print('token $token');
+
     List<Notice>? noticesList = [];
     try {
       var url = Uri.parse(notice);

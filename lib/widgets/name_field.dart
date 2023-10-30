@@ -31,14 +31,15 @@ class NameField extends StatelessWidget {
             borderRadius: BorderRadius.circular(10.r),
             borderSide: const BorderSide(width: 3, color: Colors.grey)),
       ),
-      validator: ((value) {
+      validator: (value) {
         if (value == null || value.isEmpty) {
           return 'Please enter your name';
-        } else if (!RegExp(r"^[a-zA-Z]+(?:\s[a-zA-Z]+)+$").hasMatch(value)) {
-          return 'Please enter valid name';
+        } else if (value.length < 25) {
+          return 'required 20 characters is valid';
         }
+
         return null;
-      }),
+      },
     );
   }
 }

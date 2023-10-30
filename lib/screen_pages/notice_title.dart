@@ -3,6 +3,7 @@ import 'package:fec_app2/screen_pages/notices.dart';
 import 'package:fec_app2/widgets/curved_botton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:html/parser.dart';
 
 class NoticeTitle extends StatefulWidget {
   final Notice noticeValue;
@@ -10,6 +11,12 @@ class NoticeTitle extends StatefulWidget {
 
   @override
   State<NoticeTitle> createState() => _NoticeTitleState();
+}
+
+String removeHtmlTags(String htmlString) {
+  var document = parse(htmlString);
+  String parsedString = parse(document.body!.text).documentElement!.text;
+  return parsedString;
 }
 
 class _NoticeTitleState extends State<NoticeTitle> {
@@ -61,12 +68,15 @@ class _NoticeTitleState extends State<NoticeTitle> {
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.w),
               child: Center(
-                child: Text(widget.noticeValue.description.toString(),
+                child: Text(
+                    removeHtmlTags(widget.noticeValue.description.toString()),
                     style: TextStyle(fontSize: 14.sp)),
               ),
             )),
         if (widget.noticeValue.type != null)
-          Text('Type: ${widget.noticeValue.type.toString()}',
+          Text(
+              removeHtmlTags(
+                  '${widget.noticeValue.type}\n ${widget.noticeValue.title}\n ${widget.noticeValue.summary}\n${widget.noticeValue.description}\n ${widget.noticeValue.createdAt}\n ${widget.noticeValue.updatedAt}'),
               style: TextStyle(fontSize: 16.sp)),
       ])),
     ));

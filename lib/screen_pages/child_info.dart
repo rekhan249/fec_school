@@ -190,16 +190,14 @@ class _ChildInformationState extends State<ChildInformation> {
                                         provider.textFields[index].text =
                                             newText;
                                       },
-                                      // validator: ((value) {
-                                      //   if (value == null || value.isEmpty) {
-                                      //     return 'Please enter full name';
-                                      //   } else if (!RegExp(
-                                      //           r"^[a-zA-Z]+(?:\s[a-zA-Z]+)+$")
-                                      //       .hasMatch(value)) {
-                                      //     return 'Please enter valid name';
-                                      //   }
-                                      //   return null;
-                                      // }),
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return 'Please enter name';
+                                        } else if (value.length < 25) {
+                                          return 'required 20 characters is valid';
+                                        }
+                                        return null;
+                                      },
                                     ),
                                   ),
                                   Row(

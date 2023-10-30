@@ -25,7 +25,6 @@ class _SavePasswordState extends State<SavePassword> {
   void _submitSavePasswordForm(BuildContext context) async {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
     String? token = preferences.getString('token');
-
     bool isValid = _formKey.currentState!.validate();
     FocusScope.of(context).unfocus();
     if (!isValid) {

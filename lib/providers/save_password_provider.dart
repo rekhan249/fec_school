@@ -26,10 +26,6 @@ class SavePasswordProvider with ChangeNotifier {
           body: json.encode(saveChangePasswordModel!.toMap()));
       var jsonResponse = await json.decode(json.encode(response.body));
 
-      print(111111111111);
-      print(jsonResponse);
-      print(111111111111);
-
       if (jsonResponse == true) {
         Fluttertoast.showToast(msg: 'Save & Change Password Successfully');
       }

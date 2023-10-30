@@ -3,7 +3,6 @@ import 'package:fec_app2/screen_pages/events.dart';
 import 'package:fec_app2/screen_pages/forms.dart';
 import 'package:fec_app2/screen_pages/notices.dart';
 import 'package:fec_app2/screen_pages/profile.dart';
-import 'package:fec_app2/services.dart/notification.dart';
 import 'package:fec_app2/widgets/curved_botton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
