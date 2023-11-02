@@ -76,7 +76,7 @@ class _NoticeTitleState extends State<NoticeTitle> {
         if (widget.noticeValue.type != null)
           Text(
               removeHtmlTags(
-                  '${widget.noticeValue.type}\n ${widget.noticeValue.title}\n ${widget.noticeValue.summary}\n${widget.noticeValue.description}\n ${widget.noticeValue.createdAt}\n ${widget.noticeValue.updatedAt}'),
+                  ' ${widget.noticeValue.type}\n ${widget.noticeValue.title}\n ${widget.noticeValue.summary}\n${widget.noticeValue.description}\n ${widget.noticeValue.createdAt}\n ${widget.noticeValue.updatedAt}'),
               style: TextStyle(fontSize: 16.sp)),
       ])),
     ));

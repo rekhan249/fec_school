@@ -45,11 +45,13 @@ class PasswordField extends StatelessWidget {
       validator: (value) {
         if (value == null || value.isEmpty) {
           return 'Please enter passoword';
-        } else if (!RegExp(
-                r'^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$')
-            .hasMatch(value)) {
-          return 'Please enter alphanumeric password';
-        } else if (value.length < 7) {
+        }
+        // else if (!RegExp(
+        //         r'^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$')
+        //     .hasMatch(value)) {
+        //   return 'Please enter alphanumeric password';
+        // }
+        else if (value.length < 7) {
           return 'required eight digit passoword';
         } else if (value.length > 8) {
           return 'Please enter only eigth digit passoword';

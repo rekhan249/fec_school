@@ -18,12 +18,12 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await NotificationServices().initializationNotifications();
 
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({super.key});
-  bool isAuthenticated = false;
+  const MyApp({super.key});
+  final bool isAuthenticated = false;
 
   // This widget is the root of your application.
   @override

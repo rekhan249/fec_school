@@ -3,6 +3,7 @@ import 'package:fec_app2/screen_pages/forms.dart';
 import 'package:fec_app2/widgets/curved_botton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:html/parser.dart';
 
 class FormTitle extends StatefulWidget {
   final Folder folderValue;
@@ -10,6 +11,12 @@ class FormTitle extends StatefulWidget {
 
   @override
   State<FormTitle> createState() => _FormTitleState();
+}
+
+String removeHtmlTags(String htmlString) {
+  var document = parse(htmlString);
+  String parsedString = parse(document.body!.text).documentElement!.text;
+  return parsedString;
 }
 
 class _FormTitleState extends State<FormTitle> {
