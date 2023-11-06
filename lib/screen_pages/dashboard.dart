@@ -6,6 +6,7 @@ import 'package:fec_app2/screen_pages/profile.dart';
 import 'package:fec_app2/widgets/curved_botton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DashBoard extends StatefulWidget {
   static const String routeName = '/dashboard';
@@ -18,7 +19,22 @@ class DashBoard extends StatefulWidget {
 }
 
 class _DashBoardState extends State<DashBoard> {
+  String userName = '';
   bool isFinished = false;
+  @override
+  void initState() {
+    tokenAndJwtToken();
+    super.initState();
+  }
+
+  void tokenAndJwtToken() async {
+    final preferences = await SharedPreferences.getInstance();
+    String name = preferences.getString('name')!;
+    print(name);
+    setState(() {
+      userName = name;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +94,7 @@ class _DashBoardState extends State<DashBoard> {
                           left: 130.w,
                           right: 130.w,
                           child: Text(
-                            'username',
+                            userName,
                             style:
                                 TextStyle(color: Colors.white, fontSize: 18.sp),
                           )),

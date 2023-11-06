@@ -18,8 +18,7 @@ class SavePasswordProvider with ChangeNotifier {
     try {
       var response = await http.post(Uri.parse(changeSavePassword),
           headers: {
-            "Accept": 'application/json;charset=UTF-8',
-            'Charset': 'utf-8',
+            "Accept": 'application/json',
             'Content-Type': 'application/json',
             'Authorization': 'Bearer $token'
           },

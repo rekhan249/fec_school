@@ -45,8 +45,9 @@ class _ResetPasswordState extends State<ResetPassword> {
               Stack(
                 children: [
                   Image.asset('assets/images/mainpage.png',
-                      alignment: const FractionalOffset(0, 2),
-                      height: 380,
+                      // alignment: const FractionalOffset(0, 2),
+                      height: 380.h,
+                      width: double.infinity,
                       fit: BoxFit.cover),
                   Positioned(
                       top: 0,

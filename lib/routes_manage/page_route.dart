@@ -20,6 +20,7 @@ Route<dynamic> generateRoutes(RouteSettings settings) {
       return MaterialPageRoute(builder: (context) => const ResetPassword());
     case SavePassword.routeName:
       return MaterialPageRoute(builder: (context) => const SavePassword());
+
     case DashBoard.routeName:
       return MaterialPageRoute(builder: (context) => const DashBoard());
     case NoticesScreen.routeName:

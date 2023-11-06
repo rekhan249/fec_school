@@ -63,8 +63,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
               Stack(
                 children: [
                   Image.asset('assets/images/mainpage.png',
-                      alignment: const FractionalOffset(0, 2),
-                      height: 380,
+                      // alignment: const FractionalOffset(0, 2),
+                      height: 380.h,
+                      width: double.infinity,
                       fit: BoxFit.cover),
                   Positioned(
                       top: 0,
@@ -166,6 +167,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                           icon: Icon(passwordProvider.isObscure
                                               ? Icons.visibility_off
                                               : Icons.visibility),
+                                          colors: passwordProvider.isObscure
+                                              ? Colors.black
+                                              : Colors.red,
                                         ))),
                               ),
 

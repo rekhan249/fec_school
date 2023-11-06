@@ -18,8 +18,7 @@ class FolderProvider {
         headers: {
           'Authorization': 'Bearer $token',
           "Content-Type": "application/json",
-          "Accept": 'application/json;charset=UTF-8',
-          'Charset': 'utf-8',
+          "Accept": 'application/json',
         },
       );
 

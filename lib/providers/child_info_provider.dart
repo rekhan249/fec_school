@@ -45,5 +45,3 @@ class ChildInfoProvider with ChangeNotifier {
     notifyListeners();
   }
 }
-
-

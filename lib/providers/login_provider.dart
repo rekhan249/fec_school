@@ -21,19 +21,20 @@ class LoginProvider with ChangeNotifier {
     try {
       var response = await http.post(Uri.parse(login),
           headers: {
-            "Accept": 'application/json;charset=UTF-8',
-            'Charset': 'utf-8',
-            'Content-Type': 'application/json'
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
           },
           body: jsonEncode(userModelSignIn.toMap()));
       var jsonRespose = jsonDecode(response.body);
 
       if (jsonRespose['status']) {
         var myToken = jsonRespose['token'];
+        var myName = jsonRespose['name'];
 
         final SharedPreferences preferences =
             await SharedPreferences.getInstance();
         preferences.setString('token', myToken);
+        preferences.setString('name', myName);
 
         // ignore: use_build_context_synchronously
         Navigator.push(context,

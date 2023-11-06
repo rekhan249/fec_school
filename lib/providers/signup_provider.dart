@@ -17,9 +17,8 @@ class SignUpProvider with ChangeNotifier {
     try {
       var response = await http.post(Uri.parse(registration),
           headers: {
-            "Accept": 'application/json;charset=UTF-8',
-            'Charset': 'utf-8',
-            'Content-Type': 'application/json'
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
           },
           body: json.encode(userModelSignup.toMap()));
 

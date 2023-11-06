@@ -10,6 +10,7 @@ class PasswordField extends StatelessWidget {
     required this.hintText,
     required this.labelText,
     required this.icon,
+    required this.colors,
   }) : _passwordController = passwordController;
 
   final TextEditingController _passwordController;
@@ -17,6 +18,7 @@ class PasswordField extends StatelessWidget {
   final String hintText;
   final String labelText;
   final Icon icon;
+  final Color colors;
 
   @override
   Widget build(BuildContext context) {
@@ -39,25 +41,9 @@ class PasswordField extends StatelessWidget {
         suffixIcon: IconButton(
           onPressed: () => passwordProvider.isToggleObscure(),
           icon: icon,
-          color: passwordProvider.isObscure ? Colors.black : Colors.red,
+          color: colors,
         ),
       ),
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Please enter passoword';
-        }
-        // else if (!RegExp(
-        //         r'^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$')
-        //     .hasMatch(value)) {
-        //   return 'Please enter alphanumeric password';
-        // }
-        else if (value.length < 7) {
-          return 'required eight digit passoword';
-        } else if (value.length > 8) {
-          return 'Please enter only eigth digit passoword';
-        }
-        return null;
-      },
     );
   }
 }

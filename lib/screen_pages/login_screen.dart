@@ -56,8 +56,9 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               Stack(children: [
                 Image.asset('assets/images/mainpage.png',
-                    alignment: const FractionalOffset(0, 2),
-                    height: 380,
+                    // alignment: const FractionalOffset(0, 2),
+                    height: 380.h,
+                    width: double.infinity,
                     fit: BoxFit.cover),
                 Positioned(
                     top: 0,
@@ -147,6 +148,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                         icon: Icon(passwordProvider.isObscure
                                             ? Icons.visibility_off
                                             : Icons.visibility),
+                                        colors: passwordProvider.isObscure
+                                            ? Colors.black
+                                            : Colors.red,
                                       ))),
                             ),
                             SizedBox(height: 10.h),

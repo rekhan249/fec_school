@@ -1,5 +1,6 @@
 import 'package:fec_app2/providers/password_provider.dart';
 import 'package:fec_app2/screen_pages/dashboard.dart';
+import 'package:fec_app2/screen_pages/login_screen.dart';
 import 'package:fec_app2/widgets/curved_botton.dart';
 import 'package:fec_app2/widgets/email_field.dart';
 import 'package:fec_app2/widgets/name_field.dart';
@@ -7,6 +8,7 @@ import 'package:fec_app2/widgets/password_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileInfo extends StatefulWidget {
   static const String routeName = '/profile-info';
@@ -158,6 +160,9 @@ class _ProfileInfoState extends State<ProfileInfo> {
                         icon: Icon(passwordProvider.isObscure
                             ? Icons.visibility_off
                             : Icons.visibility),
+                        colors: passwordProvider.isObscure
+                            ? Colors.black
+                            : Colors.red,
                       ))),
             ),
             SizedBox(height: 10.h),
@@ -182,6 +187,9 @@ class _ProfileInfoState extends State<ProfileInfo> {
                               ? Icons.visibility_off
                               : Icons.visibility,
                         ),
+                        colors: passwordProvider.isObscure
+                            ? Colors.black
+                            : Colors.red,
                       ))),
             ),
             SizedBox(height: 40.h),
@@ -203,10 +211,33 @@ class _ProfileInfoState extends State<ProfileInfo> {
                               fontWeight: FontWeight.bold,
                               color: Colors.white))),
                 )),
-            SizedBox(height: 40.h),
+            SizedBox(height: 20.h),
+            Center(
+              child: ElevatedButton(
+                onPressed: () async {
+                  await logoutUser();
+                  // ignore: use_build_context_synchronously
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (context) => const LoginScreen()));
+                },
+                style: ButtonStyle(
+                    shape: const MaterialStatePropertyAll(LinearBorder.none),
+                    backgroundColor:
+                        MaterialStatePropertyAll(Colors.grey.shade200),
+                    elevation: const MaterialStatePropertyAll(0)),
+                child: Text('Logout',
+                    style: TextStyle(color: Colors.black.withOpacity(0.6))),
+              ),
+            ),
+            SizedBox(height: 20.h),
           ],
         ),
       ),
     ));
+  }
+
+  Future<void> logoutUser() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('token');
   }
 }
