@@ -30,7 +30,6 @@ class _DashBoardState extends State<DashBoard> {
   void tokenAndJwtToken() async {
     final preferences = await SharedPreferences.getInstance();
     String name = preferences.getString('name')!;
-    print(name);
     setState(() {
       userName = name;
     });
