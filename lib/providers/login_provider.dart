@@ -45,6 +45,7 @@ class LoginProvider with ChangeNotifier {
       }
     } catch (e) {
       Fluttertoast.showToast(msg: '$e Error is something wrong');
+
       isNotValidate = true;
     }
 

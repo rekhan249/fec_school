@@ -38,7 +38,7 @@ class _FormTitleState extends State<FormTitle> {
             ),
             subtitle: Text(
               widget.folderValue.createdAt.toString(),
-              style: TextStyle(color: Colors.white, fontSize: 12.sp),
+              style: TextStyle(color: Colors.white, fontSize: 10.sp),
             ),
           ),
           actions: [

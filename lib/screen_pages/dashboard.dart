@@ -90,21 +90,21 @@ class _DashBoardState extends State<DashBoard> {
                       ),
                       Positioned(
                           top: 80.h,
-                          left: 130.w,
+                          left: 120.w,
                           right: 130.w,
                           child: Text(
                             userName,
                             style:
-                                TextStyle(color: Colors.white, fontSize: 18.sp),
+                                TextStyle(color: Colors.white, fontSize: 15.sp),
                           )),
                       Positioned(
                           top: 100.h,
-                          left: 65.w,
+                          left: 75.w,
                           right: 65.w,
                           child: Text(
                             'Welcome to FEC',
                             style: TextStyle(
-                                fontSize: 28.sp,
+                                fontSize: 20.sp,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white),
                           )),

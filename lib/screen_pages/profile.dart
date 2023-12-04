@@ -7,6 +7,7 @@ import 'package:fec_app2/widgets/name_field.dart';
 import 'package:fec_app2/widgets/password_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -239,5 +240,6 @@ class _ProfileInfoState extends State<ProfileInfo> {
   Future<void> logoutUser() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.remove('token');
+    Fluttertoast.showToast(msg: "User Logout Successfully");
   }
 }

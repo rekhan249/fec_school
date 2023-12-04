@@ -188,38 +188,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                               color: Colors.white))),
                                 )),
                             SizedBox(height: 20.h),
-                            // Padding(
-                            //   padding: const EdgeInsets.all(15),
-                            //   child: Align(
-                            //     alignment: Alignment.center,
-                            //     child: RichText(
-                            //       text: TextSpan(
-                            //         children: [
-                            //           TextSpan(
-                            //             text: 'Don’t have an account? ',
-                            //             style: TextStyle(
-                            //               color: Colors.black,
-                            //               fontWeight: FontWeight.bold,
-                            //               fontSize: 16.sp,
-                            //             ),
-                            //           ),
-                            //           TextSpan(
-                            //               text: 'Register',
-                            //               style: TextStyle(
-                            //                   color: Colors.red,
-                            //                   fontWeight: FontWeight.bold,
-                            //                   fontSize: 18.sp),
-                            //               recognizer: TapGestureRecognizer()
-                            //                 ..onTap = () => Navigator.push(
-                            //                     context,
-                            //                     MaterialPageRoute(
-                            //                         builder: (context) =>
-                            //                             const SignUpScreen())))
-                            //         ],
-                            //       ),
-                            //     ),
-                            //   ),
-                            // ),
                           ],
                         ),
                       ),

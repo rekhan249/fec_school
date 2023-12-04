@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:fec_app2/providers/child_info_provider.dart';
 import 'package:fec_app2/providers/dynamic_formfield_prov.dart';
 import 'package:fec_app2/providers/login_provider.dart';
@@ -15,8 +17,18 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+  }
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  HttpOverrides.global = MyHttpOverrides();
   await NotificationServices().initializationNotifications();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   final token = prefs.getString("token");
@@ -54,10 +66,10 @@ class MyApp extends StatelessWidget {
                 ],
                 child: MaterialApp(
                   debugShowCheckedModeBanner: false,
-                  title: 'Society Management System',
+                  title: 'FEC School',
                   theme: ThemeData(
                     colorScheme:
-                        ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+                        ColorScheme.fromSeed(seedColor: Colors.transparent),
                     useMaterial3: true,
                   ),
                   onGenerateRoute: (settings) => generateRoutes(settings),
