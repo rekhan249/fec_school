@@ -117,7 +117,7 @@ class _NoticesScreenState extends State<NoticesScreen> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => NoticeTitle(
-                                                id: noticeData[index].id,
+                                                id: noticeData[index].id!,
                                                 noticeValue:
                                                     noticeData[index])));
                                   },

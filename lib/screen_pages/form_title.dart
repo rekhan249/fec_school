@@ -4,6 +4,7 @@ import 'package:fec_app2/widgets/curved_botton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:html/parser.dart';
+import 'package:intl/intl.dart';
 
 class FormTitle extends StatefulWidget {
   final Folder folderValue;
@@ -37,7 +38,9 @@ class _FormTitleState extends State<FormTitle> {
               style: TextStyle(color: Colors.white, fontSize: 14.sp),
             ),
             subtitle: Text(
-              widget.folderValue.createdAt.toString(),
+              DateFormat('dd-MM-yyyy--HH:mm')
+                  .format(widget.folderValue.createdAt!)
+                  .toString(),
               style: TextStyle(color: Colors.white, fontSize: 10.sp),
             ),
           ),
