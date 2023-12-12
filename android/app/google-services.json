@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "246569139275",
+    "project_id": "fec-school-app",
+    "storage_bucket": "fec-school-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:246569139275:android:01faa96fa32166fb2761ce",
+        "android_client_info": {
+          "package_name": "com.fec.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNeEbgbBS-n6tkXZJzfw6xoqvQOPsOKLQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

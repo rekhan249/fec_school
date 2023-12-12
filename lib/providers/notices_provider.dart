@@ -12,7 +12,7 @@ class ApiService {
     // ignore: unused_local_variable
     String? token1 = preferences.getString('token');
 
-    String? token = "6k3QFb4YMkXvHxDtjJiA3LD32809qCb2m6z0jTbDc49fb4e5";
+    String? token = "akIx6c673plrU9OjX6keJwzpasTzwLXcrFfGjAfte17ba3d3";
 
     List<Notice>? noticesList = [];
     try {
@@ -44,7 +44,7 @@ class ApiService {
     // ignore: unused_local_variable
     String? token1 = preferences.getString('token');
 
-    String? token = "6k3QFb4YMkXvHxDtjJiA3LD32809qCb2m6z0jTbDc49fb4e5";
+    String? token = "akIx6c673plrU9OjX6keJwzpasTzwLXcrFfGjAfte17ba3d3";
     // ignore: unnecessary_brace_in_string_interps
     String noticeAPI = '$notice$id';
 
