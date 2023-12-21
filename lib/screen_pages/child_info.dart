@@ -3,8 +3,9 @@
 import 'package:fec_app2/providers/child_info_provider.dart';
 import 'package:fec_app2/providers/dynamic_formfield_prov.dart';
 import 'package:fec_app2/screen_pages/dashboard.dart';
-import 'package:fec_app2/services.dart/notification.dart';
+import 'package:fec_app2/services.dart/push_notifications/notification_service.dart';
 import 'package:fec_app2/widgets/curved_botton.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -24,13 +25,20 @@ class _ChildInformationState extends State<ChildInformation> {
   // final _parentNameController = TextEditingController();
   // final _classController = TextEditingController();
 
-  NotificationServices? notifyServices;
+  final PushNotificationServices _pushNotificationServices =
+      PushNotificationServices();
+
   @override
   void initState() {
-    // notifyServices = NotificationServices();
-    // notifyServices!.initializationNotifications();
-    // notifyServices!.displayNotification(
-    //     title: 'Welcome to Flutter', body: "This is Child Screen");
+    _pushNotificationServices.requestForNotificationPermissions();
+    _pushNotificationServices.getDeviceToken().then((value) {
+      if (kDebugMode) {
+        print('===========> \n $value');
+      }
+    });
+    _pushNotificationServices.notificationInit(context);
+    _pushNotificationServices.getDeviceTokenRefreshing();
+    _pushNotificationServices.setUpMessageInteraction(context);
     super.initState();
   }
 

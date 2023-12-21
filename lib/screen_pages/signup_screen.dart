@@ -2,9 +2,11 @@ import 'package:fec_app2/providers/password_provider.dart';
 import 'package:fec_app2/providers/signup_provider.dart';
 import 'package:fec_app2/providers/switching_provvider.dart';
 import 'package:fec_app2/screen_pages/login_screen.dart';
+import 'package:fec_app2/services.dart/push_notifications/notification_service.dart';
 import 'package:fec_app2/widgets/email_field.dart';
 import 'package:fec_app2/widgets/name_field.dart';
 import 'package:fec_app2/widgets/password_field.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -23,6 +25,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final PushNotificationServices _pushNotificationServices =
+      PushNotificationServices();
+
+  @override
+  void initState() {
+    _pushNotificationServices.requestForNotificationPermissions();
+    _pushNotificationServices.getDeviceToken().then((value) {
+      if (kDebugMode) {
+        print('===========> \n $value');
+      }
+    });
+    _pushNotificationServices.notificationInit(context);
+    _pushNotificationServices.getDeviceTokenRefreshing();
+    _pushNotificationServices.setUpMessageInteraction(context);
+    super.initState();
+  }
 
   // ignore: unused_element
   void _submitSignUpForm(BuildContext context) {

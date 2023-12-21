@@ -3,7 +3,9 @@ import 'package:fec_app2/screen_pages/events.dart';
 import 'package:fec_app2/screen_pages/forms.dart';
 import 'package:fec_app2/screen_pages/notices.dart';
 import 'package:fec_app2/screen_pages/profile.dart';
+import 'package:fec_app2/services.dart/push_notifications/notification_service.dart';
 import 'package:fec_app2/widgets/curved_botton.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -21,9 +23,22 @@ class DashBoard extends StatefulWidget {
 class _DashBoardState extends State<DashBoard> {
   String userName = '';
   bool isFinished = false;
+
+  final PushNotificationServices _pushNotificationServices =
+      PushNotificationServices();
+
   @override
   void initState() {
     tokenAndJwtToken();
+    _pushNotificationServices.requestForNotificationPermissions();
+    _pushNotificationServices.getDeviceToken().then((value) {
+      if (kDebugMode) {
+        // print('===========> \n $value');
+      }
+    });
+    _pushNotificationServices.notificationInit(context);
+    _pushNotificationServices.getDeviceTokenRefreshing();
+    _pushNotificationServices.setUpMessageInteraction(context);
     super.initState();
   }
 

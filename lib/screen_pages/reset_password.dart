@@ -1,5 +1,7 @@
 import 'package:fec_app2/providers/reset_password_provider.dart';
+import 'package:fec_app2/services.dart/push_notifications/notification_service.dart';
 import 'package:fec_app2/widgets/email_field.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -15,6 +17,23 @@ class ResetPassword extends StatefulWidget {
 class _ResetPasswordState extends State<ResetPassword> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
+
+  final PushNotificationServices _pushNotificationServices =
+      PushNotificationServices();
+
+  @override
+  void initState() {
+    _pushNotificationServices.requestForNotificationPermissions();
+    _pushNotificationServices.getDeviceToken().then((value) {
+      if (kDebugMode) {
+        print('===========> \n $value');
+      }
+    });
+    _pushNotificationServices.notificationInit(context);
+    _pushNotificationServices.getDeviceTokenRefreshing();
+    _pushNotificationServices.setUpMessageInteraction(context);
+    super.initState();
+  }
 
   void _submitResetPasswordForm(BuildContext context) {
     bool isValid = _formKey.currentState!.validate();

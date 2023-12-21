@@ -1,10 +1,12 @@
 import 'package:fec_app2/providers/password_provider.dart';
 import 'package:fec_app2/screen_pages/dashboard.dart';
 import 'package:fec_app2/screen_pages/login_screen.dart';
+import 'package:fec_app2/services.dart/push_notifications/notification_service.dart';
 import 'package:fec_app2/widgets/curved_botton.dart';
 import 'package:fec_app2/widgets/email_field.dart';
 import 'package:fec_app2/widgets/name_field.dart';
 import 'package:fec_app2/widgets/password_field.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -24,6 +26,24 @@ class _ProfileInfoState extends State<ProfileInfo> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
+
+  final PushNotificationServices _pushNotificationServices =
+      PushNotificationServices();
+
+  @override
+  void initState() {
+    _pushNotificationServices.requestForNotificationPermissions();
+    _pushNotificationServices.getDeviceToken().then((value) {
+      if (kDebugMode) {
+        print('===========> \n $value');
+      }
+    });
+    _pushNotificationServices.notificationInit(context);
+    _pushNotificationServices.getDeviceTokenRefreshing();
+    _pushNotificationServices.setUpMessageInteraction(context);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final passwordProvider =

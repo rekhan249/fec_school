@@ -2,7 +2,9 @@
 
 import 'package:fec_app2/providers/password_provider.dart';
 import 'package:fec_app2/providers/save_password_provider.dart';
+import 'package:fec_app2/services.dart/push_notifications/notification_service.dart';
 import 'package:fec_app2/widgets/password_field.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +23,23 @@ class _SavePasswordState extends State<SavePassword> {
   final _currentPasswordController = TextEditingController();
   final _newPasswordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
+
+  final PushNotificationServices _pushNotificationServices =
+      PushNotificationServices();
+
+  @override
+  void initState() {
+    _pushNotificationServices.requestForNotificationPermissions();
+    _pushNotificationServices.getDeviceToken().then((value) {
+      if (kDebugMode) {
+        print('===========> \n $value');
+      }
+    });
+    _pushNotificationServices.notificationInit(context);
+    _pushNotificationServices.getDeviceTokenRefreshing();
+    _pushNotificationServices.setUpMessageInteraction(context);
+    super.initState();
+  }
 
   void _submitSavePasswordForm(BuildContext context) async {
     final SharedPreferences preferences = await SharedPreferences.getInstance();

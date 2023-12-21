@@ -3,7 +3,9 @@ import 'package:fec_app2/models/folders_model.dart';
 import 'package:fec_app2/providers/folder_provider.dart';
 import 'package:fec_app2/screen_pages/dashboard.dart';
 import 'package:fec_app2/screen_pages/form_title.dart';
+import 'package:fec_app2/services.dart/push_notifications/notification_service.dart';
 import 'package:fec_app2/widgets/curved_botton.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -17,6 +19,23 @@ class FormScreen extends StatefulWidget {
 
 class _FormScreenState extends State<FormScreen> {
   final FolderProvider _folderProvider = FolderProvider();
+  final PushNotificationServices _pushNotificationServices =
+      PushNotificationServices();
+
+  @override
+  void initState() {
+    _pushNotificationServices.requestForNotificationPermissions();
+    _pushNotificationServices.getDeviceToken().then((value) {
+      if (kDebugMode) {
+        print('===========> \n $value');
+      }
+    });
+    _pushNotificationServices.notificationInit(context);
+    _pushNotificationServices.getDeviceTokenRefreshing();
+    _pushNotificationServices.setUpMessageInteraction(context);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(

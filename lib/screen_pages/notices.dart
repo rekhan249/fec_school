@@ -4,6 +4,7 @@ import 'package:fec_app2/screen_pages/dashboard.dart';
 import 'package:fec_app2/screen_pages/notice_title.dart';
 import 'package:fec_app2/services.dart/push_notifications/notification_service.dart';
 import 'package:fec_app2/widgets/curved_botton.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -17,12 +18,20 @@ class NoticesScreen extends StatefulWidget {
 
 class _NoticesScreenState extends State<NoticesScreen> {
   final ApiService _apiService = ApiService();
-  // final PushNotificationServices _pushNotificationServices =
-  //     PushNotificationServices();
+  final PushNotificationServices _pushNotificationServices =
+      PushNotificationServices();
 
   @override
   void initState() {
-    // _pushNotificationServices.requestForNotificationPermissions();
+    _pushNotificationServices.requestForNotificationPermissions();
+    _pushNotificationServices.getDeviceToken().then((value) {
+      if (kDebugMode) {
+        // print('===========> \n $value');
+      }
+    });
+    _pushNotificationServices.getDeviceTokenRefreshing();
+    _pushNotificationServices.notificationInit(context);
+    _pushNotificationServices.setUpMessageInteraction(context);
     super.initState();
   }
 
@@ -110,7 +119,7 @@ class _NoticesScreenState extends State<NoticesScreen> {
                       return const Center(child: CircularProgressIndicator());
                     } else if (snapshot.connectionState ==
                         ConnectionState.done) {
-                      final noticeData = snapshot.data;
+                      List<Notice>? noticeData = snapshot.data;
 
                       return Padding(
                         padding: EdgeInsets.symmetric(horizontal: 20.w),
@@ -126,9 +135,10 @@ class _NoticesScreenState extends State<NoticesScreen> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => NoticeTitle(
-                                                id: noticeData[index].id!,
-                                                noticeValue:
-                                                    noticeData[index])));
+                                                  id: noticeData[index].id!,
+                                                  noticeValue:
+                                                      noticeData[index],
+                                                )));
                                   },
                                   child: Container(
                                     width: double.infinity.w,

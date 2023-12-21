@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -10,9 +11,11 @@ class ApiService {
   Future<List<Notice>> getUsers() async {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
     // ignore: unused_local_variable
-    String? token1 = preferences.getString('token');
+    String? token = preferences.getString('token');
 
-    String? token = "akIx6c673plrU9OjX6keJwzpasTzwLXcrFfGjAfte17ba3d3";
+    if (kDebugMode) {
+      // print('----------------- $token');
+    }
 
     List<Notice>? noticesList = [];
     try {
@@ -42,9 +45,10 @@ class ApiService {
   Future<List<Notice>> getUserSingle(int? id) async {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
     // ignore: unused_local_variable
-    String? token1 = preferences.getString('token');
-
-    String? token = "akIx6c673plrU9OjX6keJwzpasTzwLXcrFfGjAfte17ba3d3";
+    String? token = preferences.getString('token');
+    if (kDebugMode) {
+      print('================ $token');
+    }
     // ignore: unnecessary_brace_in_string_interps
     String noticeAPI = '$notice$id';
 
