@@ -1,7 +1,7 @@
 // ignore_for_file: depend_on_referenced_packages, use_build_context_synchronously
 import 'dart:io';
-import 'dart:math';
 import 'package:fec_app2/models/notices_model.dart';
+import 'package:fec_app2/providers/notices_provider.dart';
 import 'package:fec_app2/screen_pages/notice_title.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -55,7 +55,7 @@ class PushNotificationServices {
         iOS: darwinInitializationSettings);
 
     await _flutterLocalNotificationsPlugin.initialize(initializationSettings,
-        onDidReceiveNotificationResponse: (payLoad) {
+        onDidReceiveNotificationResponse: (payLoad) async {
       messagesHandling(context, notificationMessage);
     });
   }
@@ -67,9 +67,8 @@ class PushNotificationServices {
       if (kDebugMode) {
         print(titleValue);
         print(bodyValue);
-        print(notificationMessage.data.toString());
-        print(notificationMessage.data['title']);
-        print(notificationMessage.data['id']);
+        print(notificationMessage.data['mtype'].toString());
+        print(notificationMessage.data['mid'].toString());
       }
       if (Platform.isAndroid) {
         initializationNotifications(context, notificationMessage);
@@ -90,18 +89,16 @@ class PushNotificationServices {
     });
   }
 
-  Future<void> setUpMessageInteraction(BuildContext context,
-      {Notice? noticeValue, int? id}) async {
+  Future<void> setUpMessageInteraction(BuildContext context) async {
     /// When App is in terminated state
     RemoteMessage? initialMessage =
         await FirebaseMessaging.instance.getInitialMessage();
 
     if (initialMessage != null) {
-      messagesHandling(context, initialMessage, idValue: id);
+      messagesHandling(context, initialMessage);
     }
     FirebaseMessaging.onMessage.listen((onMessageNotifyMe) {
-      messagesHandling(context, onMessageNotifyMe,
-          noticeValue: noticeValue, idValue: id);
+      messagesHandling(context, onMessageNotifyMe);
     });
 
     /// When is in bacground state
@@ -110,23 +107,32 @@ class PushNotificationServices {
     });
   }
 
-  void messagesHandling(BuildContext context, RemoteMessage message,
-      {Notice? noticeValue, int? idValue}) {
-    print('ttttttttrrrrrrrrrrrruuuuuuuuuuueeeeeeeeee${idValue}');
-    if (message.data['title'] == "notice") {
-      int? id = int.tryParse(message.data['id']);
-      String? type = message.data['title'];
-      print('ttttttttrrrrrrrrrrrruuuuuuuuuuueeeeeeeeee$id$type');
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => NoticeTitle()));
-    }
+  void messagesHandling(BuildContext context, RemoteMessage? message) async {
+    List<Notice> noticesList = await ApiService().getUsers();
+
+    await Future.delayed(const Duration(seconds: 5)).whenComplete(() {
+      for (int i = 0; i < noticesList.length; i++) {
+        if (noticesList[i].id.toString() == message!.data['mid'] &&
+            message.data['mtype'].toString() == "notice") {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => NoticeTitle(
+                        id: noticesList[i].id,
+                        noticeValue: noticesList[i],
+                        mid: message.data['mid'],
+                        mtype: message.data['mtype'],
+                      )));
+        }
+      }
+    });
   }
 
   Future<void> showNotification(
       {required String title, required String body}) async {
     AndroidNotificationChannel androidNotificationChannel =
-        AndroidNotificationChannel(Random.secure().nextInt(10000).toString(),
-            'Highly important notifications',
+        const AndroidNotificationChannel(
+            'high_importance_channel', 'Highly important notifications',
             importance: Importance.max);
     AndroidNotificationDetails androidNotificationDetails =
         AndroidNotificationDetails(androidNotificationChannel.id.toString(),

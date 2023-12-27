@@ -57,7 +57,7 @@ class _EventTitleState extends State<EventTitle> {
               style: TextStyle(color: Colors.white, fontSize: 14.sp),
             ),
             subtitle: Text(
-              DateFormat('dd-MM-yyyy--HH:mm')
+              DateFormat('dd-MM-yyyy - HH:mm')
                   .format(widget.eventsValue.createdAt!)
                   .toString(),
               style: TextStyle(color: Colors.white, fontSize: 10.sp),
@@ -91,8 +91,20 @@ class _EventTitleState extends State<EventTitle> {
                   padding: EdgeInsets.symmetric(horizontal: 20.w),
                   child: Text(
                       removeHtmlTags(widget.eventsValue.description.toString()),
-                      style: TextStyle(fontSize: 15.sp)),
-                ))
+                      style: TextStyle(fontSize: 16.sp)),
+                )),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(removeHtmlTags(widget.eventsValue.title.toString()),
+                    style: TextStyle(fontSize: 16.sp)),
+                Text(removeHtmlTags(widget.eventsValue.summary.toString()),
+                    style: TextStyle(fontSize: 16.sp)),
+                Text(removeHtmlTags(widget.eventsValue.description.toString()),
+                    style: TextStyle(fontSize: 16.sp)),
+              ],
+            ),
           ],
         )),
       ),

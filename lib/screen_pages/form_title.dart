@@ -57,7 +57,7 @@ class _FormTitleState extends State<FormTitle> {
               style: TextStyle(color: Colors.white, fontSize: 14.sp),
             ),
             subtitle: Text(
-              DateFormat('dd-MM-yyyy--HH:mm')
+              DateFormat('dd-MM-yyyy - HH:mm')
                   .format(widget.folderValue.createdAt!)
                   .toString(),
               style: TextStyle(color: Colors.white, fontSize: 10.sp),

@@ -15,7 +15,6 @@ import 'package:fec_app2/providers/switching_provvider.dart';
 import 'package:fec_app2/routes_manage/page_route.dart';
 import 'package:fec_app2/screen_pages/dashboard.dart';
 import 'package:fec_app2/screen_pages/login_screen.dart';
-import 'package:fec_app2/services.dart/notification.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -40,7 +39,6 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   HttpOverrides.global = MyHttpOverrides();
-  await NotificationServices().initializationNotifications();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   final token = prefs.getString("token");
   FirebaseMessaging.onBackgroundMessage(
