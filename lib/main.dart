@@ -1,13 +1,16 @@
 import 'dart:io';
 
 import 'package:fec_app2/firebase_options.dart';
+import 'package:fec_app2/providers/checkbox_provider.dart';
 import 'package:fec_app2/providers/child_info_provider.dart';
 import 'package:fec_app2/providers/date_time_provider.dart';
+import 'package:fec_app2/providers/dropdown_provider.dart';
 import 'package:fec_app2/providers/dynamic_formfield_prov.dart';
 import 'package:fec_app2/providers/file_picker_provider.dart';
 import 'package:fec_app2/providers/formdata_submission.dart';
 import 'package:fec_app2/providers/login_provider.dart';
 import 'package:fec_app2/providers/password_provider.dart';
+import 'package:fec_app2/providers/radiogroup_provider.dart';
 import 'package:fec_app2/providers/reset_password_provider.dart';
 import 'package:fec_app2/providers/save_password_provider.dart';
 import 'package:fec_app2/providers/signup_provider.dart';
@@ -91,6 +94,15 @@ class MyApp extends StatelessWidget {
                   ),
                   ChangeNotifierProvider(
                     create: (context) => FormDataSubmissionProvider(),
+                  ),
+                  ChangeNotifierProvider(
+                    create: (context) => CheckBoxProvider(),
+                  ),
+                  ChangeNotifierProvider(
+                    create: (context) => DropDownProvider(),
+                  ),
+                  ChangeNotifierProvider(
+                    create: (context) => RadioGroupProvider(),
                   ),
                 ],
                 child: MaterialApp(

@@ -1,10 +1,16 @@
-// ignore_for_file: unused_field, unused_element
+// ignore_for_file: unused_field, unused_element, use_build_context_synchronously
 
+import 'package:fec_app2/models/checkbox_model.dart';
+import 'package:fec_app2/models/dropdown_model.dart';
 import 'package:fec_app2/models/notices_model.dart';
+import 'package:fec_app2/models/radio_group_model.dart';
+import 'package:fec_app2/providers/checkbox_provider.dart';
 import 'package:fec_app2/providers/date_time_provider.dart';
+import 'package:fec_app2/providers/dropdown_provider.dart';
 import 'package:fec_app2/providers/file_picker_provider.dart';
 import 'package:fec_app2/providers/formdata_submission.dart';
 import 'package:fec_app2/providers/notices_provider.dart';
+import 'package:fec_app2/providers/radiogroup_provider.dart';
 import 'package:fec_app2/screen_pages/notices.dart';
 import 'package:fec_app2/services.dart/push_notifications/notification_service.dart';
 import 'package:fec_app2/widgets/curved_botton.dart';
@@ -53,6 +59,10 @@ class _NoticeTitleState extends State<NoticeTitle> {
 
   bool isloading = true;
   getSingleNotice() async {
+    await Provider.of<DropDownProvider>(context, listen: false)
+        .apiAccessDropDown(widget.id);
+    await Provider.of<RadioGroupProvider>(context, listen: false)
+        .apiAccessRadioGroupes(widget.id);
     noticeListValue = await ApiService().getUserSingle(widget.id);
 
     for (int i = 0; i < noticeListValue.length; i++) {
@@ -65,38 +75,38 @@ class _NoticeTitleState extends State<NoticeTitle> {
         controllersDates.add(TextEditingController());
         controllersFiles.add(TextEditingController());
         controllersNumbers.add(TextEditingController());
-        if ((noticeListValue[i].formdata[j].type == "text" &&
-                noticeListValue[i].formdata[j].subtype == "text") &&
-            noticeListValue[i].formdata[j].name!.isNotEmpty) {
-        } else if (noticeListValue[i].formdata[j].type == "radio-group" &&
-            noticeListValue[i].formdata[j].name!.isNotEmpty) {
-          for (int k = 0;
-              k < noticeListValue[i].formdata[j].values.length;
-              k++) {
-            if (noticeListValue[i].formdata[j].values[k].selected == true) {
-              selectedRadioButton =
-                  noticeListValue[i].formdata[j].values[k].value!;
-              if (kDebugMode) {
-                print(
-                    '=*******************=${noticeListValue[i].formdata[j].values[k].value!}');
-              }
-            }
-          }
-        } else if (noticeListValue[i].formdata[j].type == "select" &&
-            noticeListValue[i].formdata[j].name!.isNotEmpty) {
-          for (int k = 0;
-              k < noticeListValue[i].formdata[j].values.length;
-              k++) {
-            if (noticeListValue[i].formdata[j].values[k].selected == true) {
-              selectedDropItem =
-                  noticeListValue[i].formdata[j].values[k].value!;
-              if (kDebugMode) {
-                print(
-                    '==============${noticeListValue[i].formdata[j].values[k].value!}');
-              }
-            }
-          }
-        }
+        // if ((noticeListValue[i].formdata[j].type == "text" &&
+        //         noticeListValue[i].formdata[j].subtype == "text") &&
+        //     noticeListValue[i].formdata[j].name!.isNotEmpty) {
+        // } else if (noticeListValue[i].formdata[j].type == "radio-group" &&
+        //     noticeListValue[i].formdata[j].name!.isNotEmpty) {
+        //   for (int k = 0;
+        //       k < noticeListValue[i].formdata[j].values.length;
+        //       k++) {
+        //     if (noticeListValue[i].formdata[j].values[k].selected == true) {
+        //       selectedRadioButton =
+        //           noticeListValue[i].formdata[j].values[k].value!;
+        //       if (kDebugMode) {
+        //         print(
+        //             '=*******************=${noticeListValue[i].formdata[j].values[k].value!}');
+        //       }
+        //     }
+        //   }
+        // } else if (noticeListValue[i].formdata[j].type == "select" &&
+        //     noticeListValue[i].formdata[j].name!.isNotEmpty) {
+        //   for (int k = 0;
+        //       k < noticeListValue[i].formdata[j].values.length;
+        //       k++) {
+        //     if (noticeListValue[i].formdata[j].values[k].selected == true) {
+        //       selectedDropItem =
+        //           noticeListValue[i].formdata[j].values[k].value!;
+        //       if (kDebugMode) {
+        //         print(
+        //             '==============${noticeListValue[i].formdata[j].values[k].value!}');
+        //       }
+        //     }
+        //   }
+        // }
       }
       _textControllers.add(controllersText);
       _dateControllers.add(controllersDates);
@@ -121,14 +131,17 @@ class _NoticeTitleState extends State<NoticeTitle> {
   void initState() {
     _pushNotificationServices.requestForNotificationPermissions();
     _pushNotificationServices.getDeviceToken().then((value) {
-      if (kDebugMode) {
-        print('===========> \n $value');
-      }
+      // if (kDebugMode) {
+      //   print('===========> \n $value');
+      // }
     });
     _pushNotificationServices.notificationInit(context);
     _pushNotificationServices.getDeviceTokenRefreshing();
     _pushNotificationServices.setUpMessageInteraction(context);
     getSingleNotice();
+    Provider.of<CheckBoxProvider>(context, listen: false)
+        .apiAccessCheckBoxes(widget.id);
+
     super.initState();
   }
 
@@ -161,6 +174,9 @@ class _NoticeTitleState extends State<NoticeTitle> {
   Widget build(BuildContext context) {
     Provider.of<FilePickerProvider>(context, listen: false);
     Provider.of<DateTimeProvider>(context, listen: false);
+    Provider.of<CheckBoxProvider>(context, listen: false);
+    Provider.of<DropDownProvider>(context, listen: false);
+    Provider.of<RadioGroupProvider>(context, listen: false);
 
     return SafeArea(
         child: Scaffold(
@@ -242,9 +258,7 @@ class _NoticeTitleState extends State<NoticeTitle> {
                       for (int l = 0;
                           l < noticeListValue[k].formdata.length;
                           l++)
-                        if ((noticeListValue[k].formdata[l].type == "text" &&
-                                noticeListValue[k].formdata[l].subtype ==
-                                    "text") &&
+                        if (noticeListValue[k].formdata[l].type == "text" &&
                             noticeListValue[k].formdata[l].name!.isNotEmpty)
                           Column(
                             children: [
@@ -282,35 +296,40 @@ class _NoticeTitleState extends State<NoticeTitle> {
                               ),
                             ],
                           ),
-                    for (int k = 0; k < noticeListValue.length; k++)
-                      for (int l = 0;
-                          l < noticeListValue[k].formdata.length;
-                          l++)
-                        if (noticeListValue[k].formdata[l].type ==
-                                "checkbox-group" &&
-                            noticeListValue[k].formdata[l].name!.isNotEmpty)
-                          Column(
-                              children: noticeListValue[k]
-                                  .formdata[l]
-                                  .values
-                                  .map((e) {
-                            return Padding(
-                              padding: const EdgeInsets.all(3.0),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10.r)),
-                                    border: Border.all()),
-                                child: CheckboxListTile(
-                                  activeColor:
-                                      const Color.fromARGB(255, 25, 74, 159),
-                                  title: Text(e.label.toString()),
-                                  value: e.selected,
-                                  onChanged: (bool? value) {},
-                                ),
-                              ),
-                            );
-                          }).toList()),
+                    Consumer<CheckBoxProvider>(
+                      builder: (context, cBP, child) => Column(
+                        children: [
+                          for (List<CheckboxModel> checkboxModel
+                              in cBP.checkboxsList)
+                            ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: checkboxModel.length,
+                                itemBuilder: (context, index) {
+                                  return Padding(
+                                    padding: const EdgeInsets.all(3.0),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10.r)),
+                                          border: Border.all()),
+                                      child: CheckboxListTile(
+                                        activeColor: const Color.fromARGB(
+                                            255, 25, 74, 159),
+                                        title: Text(checkboxModel[index]
+                                            .label
+                                            .toString()),
+                                        value: checkboxModel[index].selected,
+                                        onChanged: (value) {
+                                          cBP.selectUnselectCheckboxe(value,
+                                              checkboxModel[index], index);
+                                        },
+                                      ),
+                                    ),
+                                  );
+                                })
+                        ],
+                      ),
+                    ),
                     for (int k = 0; k < noticeListValue.length; k++)
                       for (int l = 0;
                           l < noticeListValue[k].formdata.length;
@@ -454,74 +473,88 @@ class _NoticeTitleState extends State<NoticeTitle> {
                               ),
                             ],
                           ),
-                    for (int k = 0; k < noticeListValue.length; k++)
-                      for (int l = 0;
-                          l < noticeListValue[k].formdata.length;
-                          l++)
-                        if (noticeListValue[k].formdata[l].type ==
-                                "radio-group" &&
-                            noticeListValue[k].formdata[l].name!.isNotEmpty)
-                          Column(
-                              children: noticeListValue[k]
-                                  .formdata[l]
-                                  .values
-                                  .map((e) {
-                            return Padding(
-                                padding: const EdgeInsets.all(3.0),
-                                child: Container(
-                                  margin: EdgeInsets.symmetric(vertical: 4.h),
-                                  height: 50.h,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(10.r)),
-                                      border: Border.all()),
-                                  child: RadioListTile(
-                                    title: Text(e.label.toString()),
-                                    value: selectedRadioButton,
-                                    groupValue: e.value,
-                                    onChanged: (value) {},
+                    Consumer<RadioGroupProvider>(
+                      builder: (context, rGP, child) => Column(children: [
+                        for (List<RadioGroupModel> radioModels
+                            in rGP.radioGroupsList)
+                          ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: radioModels.length,
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                    padding: const EdgeInsets.all(3.0),
+                                    child: Container(
+                                      margin:
+                                          EdgeInsets.symmetric(vertical: 4.h),
+                                      height: 50.h,
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10.r)),
+                                          border: Border.all()),
+                                      child: RadioListTile(
+                                        activeColor: const Color.fromARGB(
+                                            255, 25, 74, 159),
+                                        title: Text(radioModels[index]
+                                            .label
+                                            .toString()),
+                                        selected: radioModels[index].selected,
+                                        value: radioModels[index].value,
+                                        groupValue: radioModels[index].selected,
+                                        onChanged: (value) {},
+                                      ),
+                                    ));
+                              }),
+                      ]),
+                    ),
+                    Consumer<DropDownProvider>(
+                      builder: (context, dDP, child) => Column(
+                        children: [
+                          for (List<DropDownModel> dropDownList
+                              in dDP.dropDownsList)
+                            Column(
+                              children: [
+                                // for (DropDownModel dropDown in dropDownList)
+                                Padding(
+                                  padding: const EdgeInsets.all(3.0),
+                                  child: Container(
+                                    margin: EdgeInsets.symmetric(vertical: 4.h),
+                                    height: 50.h,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10.r)),
+                                        border: Border.all()),
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 10.w, vertical: 2.h),
+                                      child: DropdownButtonFormField<
+                                          DropDownModel>(
+                                        decoration: const InputDecoration(
+                                            border: UnderlineInputBorder(
+                                                borderSide: BorderSide.none)),
+                                        value: dropDownList.firstWhere(
+                                            (element) => element.selected),
+                                        items: dropDownList.map<
+                                            DropdownMenuItem<
+                                                DropDownModel>>((e) {
+                                          return DropdownMenuItem<
+                                              DropDownModel>(
+                                            // value: e.value!,
+                                            value: e,
+                                            child: Text(e.label),
+                                          );
+                                        }).toList(),
+                                        onChanged: (value) {
+                                          dDP.dropDownSelectOne(value);
+                                        },
+                                      ),
+                                    ),
                                   ),
-                                ));
-                          }).toList()),
-                    for (int k = 0; k < noticeListValue.length; k++)
-                      for (int l = 0;
-                          l < noticeListValue[k].formdata.length;
-                          l++)
-                        if (noticeListValue[k].formdata[l].type == "select" &&
-                            noticeListValue[k].formdata[l].name!.isNotEmpty)
-                          Padding(
-                            padding: const EdgeInsets.all(3.0),
-                            child: Container(
-                              margin: EdgeInsets.symmetric(vertical: 4.h),
-                              height: 50.h,
-                              decoration: BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10.r)),
-                                  border: Border.all()),
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 10.w, vertical: 2.h),
-                                child: DropdownButtonFormField<dynamic>(
-                                  value: selectedDropItem,
-                                  items: noticeListValue[k]
-                                      .formdata[l]
-                                      .values
-                                      .map<DropdownMenuItem>((e) {
-                                    return DropdownMenuItem(
-                                      value: e.value,
-                                      child: Text(e.label!),
-                                    );
-                                  }).toList(),
-                                  onChanged: (value) {
-                                    selectedDropItem = value;
-                                  },
-                                  decoration: const InputDecoration(
-                                      border: UnderlineInputBorder(
-                                          borderSide: BorderSide.none)),
                                 ),
-                              ),
+                              ],
                             ),
-                          ),
+                        ],
+                      ),
+                    ),
                     for (int k = 0; k < noticeListValue.length; k++)
                       for (int l = 0;
                           l < noticeListValue[k].formdata.length;

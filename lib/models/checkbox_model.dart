@@ -1,7 +1,7 @@
 class CheckboxModel {
   final String label;
   final String value;
-  final bool selected;
+  bool selected;
 
   CheckboxModel(
       {required this.label, required this.value, required this.selected});

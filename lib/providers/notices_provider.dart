@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:developer';
-import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -12,10 +11,6 @@ class ApiService {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
     // ignore: unused_local_variable
     String? token = preferences.getString('token');
-
-    if (kDebugMode) {
-      // print('----------------- $token');
-    }
 
     List<Notice>? noticesList = [];
     try {
@@ -46,9 +41,7 @@ class ApiService {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
     // ignore: unused_local_variable
     String? token = preferences.getString('token');
-    if (kDebugMode) {
-      print('================ $token');
-    }
+
     // ignore: unnecessary_brace_in_string_interps
     String noticeAPI = '$notice$id';
 
